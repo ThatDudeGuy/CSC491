@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
     public Rigidbody rb;
-    public GameObject cameraPoint;
+    public GameObject cameraPoint, mainCamera;
     float cameraRotation, moveSpeed = 0;
     int direction_to_face;
-    Vector3 rotateTo;
+    Vector3 rotateTo, cameraDirection;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +77,54 @@ public class Player_Movement : MonoBehaviour
             // rb.AddForce(20f, 0f, 0f);
         }
     }
+
+    private void FixedUpdate() {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            rb.AddForce(0f, 300f, 0f);
+        }
+        if(Input.GetKey(KeyCode.W)){
+            cameraDirection = mainCamera.transform.forward;
+            cameraDirection.y = 0; // Keep movement horizontal
+
+            // Calculate the movement vector
+            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
+
+            // Apply the movement to the Rigidbody
+            rb.MovePosition(rb.position + movement);
+        }
+        if(Input.GetKey(KeyCode.S)){
+            cameraDirection = -mainCamera.transform.forward;
+            cameraDirection.y = 0; // Keep movement horizontal
+
+            // Calculate the movement vector
+            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
+
+            // Apply the movement to the Rigidbody
+            rb.MovePosition(rb.position + movement);
+        }
+        if(Input.GetKey(KeyCode.D)){
+            cameraDirection = mainCamera.transform.forward;
+            cameraDirection.y = 0; // Keep movement horizontal
+
+            // Calculate the movement vector
+            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
+
+            // Apply the movement to the Rigidbody
+            rb.MovePosition(rb.position + movement);
+        }
+        if(Input.GetKey(KeyCode.A)){
+            cameraDirection = -mainCamera.transform.forward;
+            cameraDirection.y = 0; // Keep movement horizontal
+
+            // Calculate the movement vector
+            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
+
+            // Apply the movement to the Rigidbody
+            rb.MovePosition(rb.position + movement);
+        }
+    }
+
+
 
     private void updateDirection(int face_direction){
         // 0 = W, 
