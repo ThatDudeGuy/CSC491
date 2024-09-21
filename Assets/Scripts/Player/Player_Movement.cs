@@ -4,122 +4,148 @@ public class Player_Movement : MonoBehaviour
 {
     public Rigidbody rb;
     public GameObject cameraPoint, mainCamera;
-    float cameraRotation, moveSpeed = 0;
+    public Animator animator;
+    float cameraRotation, moveSpeed = 5f;
     int direction_to_face;
-    Vector3 rotateTo, cameraDirection;
+    Vector3 rotateTo, cameraDirection, movement;
+
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60; // <- HERE is where I have set the game's target framerate. It runs at 60 frames per second.
         rb = GetComponent<Rigidbody>();
         cameraPoint = GameObject.FindGameObjectWithTag("CameraPoint");
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-        // if(Input.GetKey(KeyCode.W)){
-        //     rb.AddForce(0f, 0f, 2f);
-        // }
-    // }
+    // Update is called every frame
     private void Update() {
-        /*
-            In order to have the orientation of 3d movement correct, we need to define
-            an absolute North, South, East, and West. When the player presses the "D" key,
-            they should rotate/face and move to the East. When the player presses "A" they should
-            move to the West, "W" for the north, and "S" for the South
-
-            The camera will determine this for us. Whichever face_direction the camera is facing, that
-            will be defined as North. 
-
-            Our camera will move based off of mouse input. We will rotate about a point, the point
-            being the player, in the face_direction the user slides their mouse. 
-        */
 
         /*
-            There is a point in space that if we keep track of, we will know which way the camera
-            is facing. 
-
-            Or potentially use the value of the Empty game objects Y rotation value
+            From the "START" to "END" below, this handles 8 directional movement and updates
+            the way the character is facing depending on which buttons the player is holding
         */
 
-
-
-        if(Input.GetKey(KeyCode.W)){
-            /*
-                Depending on the value of the rotation, will determine in which face_direction
-                we add force to the player.
-            */
+        // START
+        if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)){
+            direction_to_face = 4;
+            updateDirection(direction_to_face);
+            animator.SetBool("isWalking", true);
+        }
+        else if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A)){
+            direction_to_face = 5;
+            updateDirection(direction_to_face);
+            animator.SetBool("isWalking", true);
+        }
+        else if(Input.GetKey(KeyCode.W)){
             direction_to_face = 0;
             updateDirection(direction_to_face);
-            
-            // rb.AddForce(0f, 0f, 20f);
-            
-
-            // cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
-            // rotateTo = transform.rotation.eulerAngles;
-            // rotateTo.y = cameraRotation;
-            // transform.rotation = Quaternion.Euler(rotateTo);
+            animator.SetBool("isWalking", true);
         }
-        if(Input.GetKey(KeyCode.S)){
+
+
+        if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D)){
+            direction_to_face = 6;
+            updateDirection(direction_to_face);
+            animator.SetBool("isWalking", true);
+        }
+        else if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A)){
+            direction_to_face = 7;
+            updateDirection(direction_to_face);
+            animator.SetBool("isWalking", true);
+        }
+        else if(Input.GetKey(KeyCode.S)){
             direction_to_face = 1;
             updateDirection(direction_to_face);
-            // rb.AddForce(0f, 0f, -20f);
+            animator.SetBool("isWalking", true);
         }
-        if(Input.GetKey(KeyCode.D)){
+
+
+        if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)){
             direction_to_face = 2;
             updateDirection(direction_to_face);
-            // rb.AddForce(-20f, 0f, 0f);
+            animator.SetBool("isWalking", true);
         }
-        if(Input.GetKey(KeyCode.A)){
+        if(Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)){
             direction_to_face = 3;
             updateDirection(direction_to_face);
-            // rb.AddForce(20f, 0f, 0f);
+            animator.SetBool("isWalking", true);
         }
+        // END
+
+        // if(Input.GetKeyUp(KeyCode.W)){
+        //     // direction_to_face = 0;
+
+        //     updateDirection(direction_to_face);
+        // }
+
+
+        // if(Input.GetKeyUp(KeyCode.D)){
+        //     // direction_to_face = 2;
+        //     updateDirection(direction_to_face);
+        // }
+
+
+
+
+        /*
+            From the "START" to "END" below, this checks if none of the movement buttons are being held,
+            if so, then we know the player is no longer moving so we update a couple of booleans
+            to stop and play the correct animations based off of the animator.
+            Also resetting the movement speed back to its original value in the case where the player
+            is sprinting and releases the movement keys to stop moving.
+
+            Pressing shift will allow the player to "sprint". To stop sprinting, the player must release
+            any movement buttons. We can change this behaviour if we please.
+        */
+
+        // START
+        if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)){
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isWalking", false);
+            moveSpeed = 5f;
+        }
+        if(Input.GetKeyDown(KeyCode.LeftShift) && animator.GetBool("isWalking")){
+            animator.SetBool("isRunning", true);
+            moveSpeed = 10f;
+        }
+        // END
     }
 
     private void FixedUpdate() {
         if(Input.GetKeyDown(KeyCode.Space)){
             rb.AddForce(0f, 300f, 0f);
         }
+        
+
         if(Input.GetKey(KeyCode.W)){
+
             cameraDirection = mainCamera.transform.forward;
-            cameraDirection.y = 0; // Keep movement horizontal
+            // cameraDirection.y = 0; // Keep movement horizontal
 
             // Calculate the movement vector
-            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
+            movement = moveSpeed * Time.deltaTime * cameraDirection;
 
             // Apply the movement to the Rigidbody
             rb.MovePosition(rb.position + movement);
         }
         if(Input.GetKey(KeyCode.S)){
             cameraDirection = -mainCamera.transform.forward;
-            cameraDirection.y = 0; // Keep movement horizontal
-
-            // Calculate the movement vector
-            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
-
-            // Apply the movement to the Rigidbody
+            // cameraDirection.y = 0; 
+            movement = moveSpeed * Time.deltaTime * cameraDirection;
             rb.MovePosition(rb.position + movement);
         }
         if(Input.GetKey(KeyCode.D)){
-            cameraDirection = mainCamera.transform.forward;
-            cameraDirection.y = 0; // Keep movement horizontal
-
-            // Calculate the movement vector
-            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
-
-            // Apply the movement to the Rigidbody
+            cameraDirection = mainCamera.transform.right;
+            // cameraDirection.y = 0;
+            movement = moveSpeed * Time.deltaTime * cameraDirection;
             rb.MovePosition(rb.position + movement);
         }
         if(Input.GetKey(KeyCode.A)){
-            cameraDirection = -mainCamera.transform.forward;
-            cameraDirection.y = 0; // Keep movement horizontal
-
-            // Calculate the movement vector
-            Vector3 movement = 5f * Time.deltaTime * cameraDirection;
-
-            // Apply the movement to the Rigidbody
+            cameraDirection = -mainCamera.transform.right;
+            // cameraDirection.y = 0;
+            movement = moveSpeed * Time.deltaTime * cameraDirection;
             rb.MovePosition(rb.position + movement);
         }
     }
@@ -130,32 +156,50 @@ public class Player_Movement : MonoBehaviour
         // 0 = W, 
         // 1 = S, 
         // 2 = D, 
-        // 3 = A
+        // 3 = A,
+        // 4 = W & D,
+        // 5 = W & A,
+        // 6 = S & D,
+        // 7 = S & A
         switch(face_direction){
             case 0:
-                cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
-                rotateTo = transform.rotation.eulerAngles;
-                rotateTo.y = cameraRotation;
-                transform.rotation = Quaternion.Euler(rotateTo);
+                calculateEulerAngle(0);
                 break;
             case 1:
-                cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
-                rotateTo = transform.rotation.eulerAngles;
-                rotateTo.y = cameraRotation + 180;
-                transform.rotation = Quaternion.Euler(rotateTo);
+                calculateEulerAngle(180);
                 break;
             case 2:
-                cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
-                rotateTo = transform.rotation.eulerAngles;
-                rotateTo.y = cameraRotation + 90;
-                transform.rotation = Quaternion.Euler(rotateTo);
+                calculateEulerAngle(90);
                 break;
             case 3:
-                cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
-                rotateTo = transform.rotation.eulerAngles;
-                rotateTo.y = cameraRotation - 90;
-                transform.rotation = Quaternion.Euler(rotateTo);
+                calculateEulerAngle(-90);
+                break;
+            case 4:
+                calculateEulerAngle(45);
+                break;
+            case 5:
+                calculateEulerAngle(-45);
+                break;
+            case 6:
+                calculateEulerAngle(135);
+                break;
+            case 7:
+                calculateEulerAngle(-135);
                 break;
         }
+    }
+
+    // Rotates the player to the correct angle based on where the camera is facing
+    private void calculateEulerAngle(int angleValue){
+        cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
+        rotateTo = transform.rotation.eulerAngles;
+        rotateTo.y = cameraRotation + angleValue;
+        transform.rotation = Quaternion.Euler(rotateTo);
+        // print(rotateTo);
+        /*
+            when i release a key, keep track of the current Y rotation value of the player,
+            then increment until we reach desired direction. Start at -90 and slowly go to 0.
+        */
+
     }
 }
