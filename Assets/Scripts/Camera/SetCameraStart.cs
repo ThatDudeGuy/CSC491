@@ -8,6 +8,7 @@ public class SetCameraStart : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         transform.position = player.transform.position;
+        transform.rotation = player.transform.rotation;
     }
 
     private void FixedUpdate() {

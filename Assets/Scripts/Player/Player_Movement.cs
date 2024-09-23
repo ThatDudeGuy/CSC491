@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
@@ -5,9 +7,10 @@ public class Player_Movement : MonoBehaviour
     public Rigidbody rb;
     public GameObject cameraPoint, mainCamera;
     public Animator animator;
-    float cameraRotation, moveSpeed = 5f;
+    float cameraRotation, moveSpeed = 5f, counter = 0;
     int direction_to_face;
-    Vector3 rotateTo, cameraDirection, movement;
+    Vector3 rotateTo, cameraDirection, movement, player_Y_vector;
+    bool direction_to_turn;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,7 @@ public class Player_Movement : MonoBehaviour
         cameraPoint = GameObject.FindGameObjectWithTag("CameraPoint");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         animator = GetComponent<Animator>();
+        player_Y_vector = transform.rotation.eulerAngles;
     }
 
     // Update is called every frame
@@ -86,6 +90,25 @@ public class Player_Movement : MonoBehaviour
         //     updateDirection(direction_to_face);
         // }
 
+        if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A)){
+            player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
+            print("Player Y Face: "+player_Y_vector);
+            // print("Player Y Face: "+(player_Y_vector - new Vector3(0f,90,0f)));
+            // print(cameraRotation);
+            // find the difference between what I am supposed to face, and what i am facing
+            // so if the character is facing -45 degrees and the camera if facing 274
+            // if where i was facing is a negative number, make it positive 274 - (-45 * -1) = 229
+            // 229 becomes the difference and the value at which to slowlhy move to
+        }
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)){
+            player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
+            // print("\n");
+            // print(player_Y_vector);
+            print("Rotate To: "+rotateTo);
+            direction_to_turn = getShortestRotation();
+            print("direction_to_turn = "+direction_to_turn);
+        }
+
 
 
 
@@ -114,45 +137,29 @@ public class Player_Movement : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            rb.AddForce(0f, 300f, 0f);
-        }
+        // if(Input.GetKeyDown(KeyCode.Space)){
+        //     rb.AddForce(0f, 300f, 0f);
+        // }
         
 
         if(Input.GetKey(KeyCode.W)){
-
-            cameraDirection = mainCamera.transform.forward;
-            // cameraDirection.y = 0; // Keep movement horizontal
-
-            // Calculate the movement vector
-            movement = moveSpeed * Time.deltaTime * cameraDirection;
-
-            // Apply the movement to the Rigidbody
-            rb.MovePosition(rb.position + movement);
+            cameraDirectionMovement(mainCamera.transform.forward);
         }
         if(Input.GetKey(KeyCode.S)){
-            cameraDirection = -mainCamera.transform.forward;
-            // cameraDirection.y = 0; 
-            movement = moveSpeed * Time.deltaTime * cameraDirection;
-            rb.MovePosition(rb.position + movement);
+            cameraDirectionMovement(-mainCamera.transform.forward);
         }
         if(Input.GetKey(KeyCode.D)){
-            cameraDirection = mainCamera.transform.right;
-            // cameraDirection.y = 0;
-            movement = moveSpeed * Time.deltaTime * cameraDirection;
-            rb.MovePosition(rb.position + movement);
+            cameraDirectionMovement(mainCamera.transform.right);
         }
         if(Input.GetKey(KeyCode.A)){
-            cameraDirection = -mainCamera.transform.right;
-            // cameraDirection.y = 0;
-            movement = moveSpeed * Time.deltaTime * cameraDirection;
-            rb.MovePosition(rb.position + movement);
+            cameraDirectionMovement(-mainCamera.transform.right);
         }
     }
 
 
 
     private void updateDirection(int face_direction){
+        // Represents the keys being held
         // 0 = W, 
         // 1 = S, 
         // 2 = D, 
@@ -164,27 +171,35 @@ public class Player_Movement : MonoBehaviour
         switch(face_direction){
             case 0:
                 calculateEulerAngle(0);
+                smoothRotation();
                 break;
             case 1:
                 calculateEulerAngle(180);
+                smoothRotation();
                 break;
             case 2:
                 calculateEulerAngle(90);
+                smoothRotation();
                 break;
             case 3:
                 calculateEulerAngle(-90);
+                smoothRotation();
                 break;
             case 4:
                 calculateEulerAngle(45);
+                smoothRotation();
                 break;
             case 5:
                 calculateEulerAngle(-45);
+                smoothRotation();
                 break;
             case 6:
                 calculateEulerAngle(135);
+                smoothRotation();
                 break;
             case 7:
                 calculateEulerAngle(-135);
+                smoothRotation();
                 break;
         }
     }
@@ -194,12 +209,105 @@ public class Player_Movement : MonoBehaviour
         cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
         rotateTo = transform.rotation.eulerAngles;
         rotateTo.y = cameraRotation + angleValue;
-        transform.rotation = Quaternion.Euler(rotateTo);
-        // print(rotateTo);
-        /*
-            when i release a key, keep track of the current Y rotation value of the player,
-            then increment until we reach desired direction. Start at -90 and slowly go to 0.
-        */
+        // transform.rotation = Quaternion.Euler(rotateTo);
+    }
 
+    // Handle movement in a specific camera direction
+    private void cameraDirectionMovement(Vector3 direction)
+    {
+        movement = moveSpeed * Time.deltaTime * direction;
+        rb.MovePosition(rb.position + movement);
+    }
+
+    // private void smoothRotation(){
+    //     // float angle1 = Math.Abs(rotateTo.y - player_Y_vector.y);
+    //     // float angle2 = Math.Abs((player_Y_vector.y + 360) - rotateTo.y);
+    //     // if(Math.Min(angle1, angle2) == angle2 && player_Y_vector.y > rotateTo.y){
+    //     //     player_Y_vector.y--;
+    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     // }
+    //     // else if(Math.Min(angle1, angle2) == angle1 && player_Y_vector.y < rotateTo.y){
+    //     //     player_Y_vector.y++;
+    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     // }
+    //     // print("Difference: "+difference);
+    //     // if(direction_to_turn){
+    //     //     if(player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1) return;
+    //     //     else{
+    //     //         player_Y_vector.y++;
+    //     //         transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     //     }
+    //     // }
+    //     if(!direction_to_turn){//else{
+    //         if(player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1) return;
+    //         else{
+    //             player_Y_vector.y--;
+    //             transform.rotation = Quaternion.Euler(player_Y_vector);
+    //         }
+    //     }
+    //     // else if(!direction_to_turn && player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1){
+    //     //     player_Y_vector.y--;
+    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     // }
+
+
+    //     // if(player_Y_vector.y < rotateTo.y){
+    //     //     player_Y_vector.y++;
+    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     // }
+    //     // else if(player_Y_vector.y > rotateTo.y){
+    //     //     player_Y_vector.y--;
+    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
+    //     // }
+    // }
+    private void smoothRotation()
+{
+    // Calculate the difference in angles (shortest path)
+    float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
+    
+    // Define the speed of rotation (degrees per second)
+    float rotationSpeed = 200f; // Adjust this value to control the turning speed
+
+    // If the difference is small, we can consider the rotation done
+    if (Mathf.Abs(angleDifference) > 0.1f) 
+    {
+        // Calculate how much to rotate this frame, based on rotation speed and frame rate
+        float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
+
+        // Prevent overshooting the target angle by clamping the step
+        if (Mathf.Abs(rotationStep) > Mathf.Abs(angleDifference)) 
+        {
+            rotationStep = angleDifference; // Just finish the rotation
+        }
+
+        // Apply the rotation step to the current Y angle
+        player_Y_vector.y += rotationStep;
+
+        // Update the character's rotation
+        transform.rotation = Quaternion.Euler(0f, player_Y_vector.y, 0f);
+    }
+}
+
+
+    // private bool getShortestRotation(){
+    //     // Angle1 = turn right
+    //     // Angle2 = turn left
+    //     float angle1;
+    //     float angle2;
+    //     if(player_Y_vector.y > 180){
+    //         angle1 = Math.Abs((rotateTo.y + 360) - player_Y_vector.y);
+    //         angle2 = Math.Abs(player_Y_vector.y - rotateTo.y);
+    //     }
+    //     else{
+    //         angle1 = Math.Abs(rotateTo.y - player_Y_vector.y);
+    //         angle2 = Math.Abs((player_Y_vector.y + 360) - rotateTo.y);
+    //     }
+    //     print("FROM getShortestRotation()\n "+angle1+" : "+angle2);
+
+    //     return Math.Min(angle1, angle2) == angle1;
+    // }
+    private bool getShortestRotation(){
+        float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
+        return angleDifference > 0;  // If positive, turn right, if negative, turn left
     }
 }
