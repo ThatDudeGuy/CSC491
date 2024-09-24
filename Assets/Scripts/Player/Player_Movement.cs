@@ -1,18 +1,16 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+    public LockOn lockOn;
     public Rigidbody rb;
     public GameObject cameraPoint, mainCamera;
     public Animator animator;
-    float cameraRotation, moveSpeed = 5f, counter = 0;
+    float cameraRotation, moveSpeed = 5f;
     int direction_to_face;
-    Vector3 rotateTo, cameraDirection, movement, player_Y_vector;
-    bool direction_to_turn;
+    Vector3 rotateTo, movement, player_Y_vector;
+    public bool isJumping;
 
-    // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60; // <- HERE is where I have set the game's target framerate. It runs at 60 frames per second.
@@ -21,10 +19,14 @@ public class Player_Movement : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         animator = GetComponent<Animator>();
         player_Y_vector = transform.rotation.eulerAngles;
+        isJumping = false;
+        lockOn = GetComponent<LockOn>();
     }
 
-    // Update is called every frame
     private void Update() {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            isJumping = true;
+        }
 
         /*
             From the "START" to "END" below, this handles 8 directional movement and updates
@@ -78,39 +80,12 @@ public class Player_Movement : MonoBehaviour
         }
         // END
 
-        // if(Input.GetKeyUp(KeyCode.W)){
-        //     // direction_to_face = 0;
-
-        //     updateDirection(direction_to_face);
-        // }
-
-
-        // if(Input.GetKeyUp(KeyCode.D)){
-        //     // direction_to_face = 2;
-        //     updateDirection(direction_to_face);
-        // }
-
         if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A)){
             player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
-            print("Player Y Face: "+player_Y_vector);
-            // print("Player Y Face: "+(player_Y_vector - new Vector3(0f,90,0f)));
-            // print(cameraRotation);
-            // find the difference between what I am supposed to face, and what i am facing
-            // so if the character is facing -45 degrees and the camera if facing 274
-            // if where i was facing is a negative number, make it positive 274 - (-45 * -1) = 229
-            // 229 becomes the difference and the value at which to slowlhy move to
         }
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)){
             player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
-            // print("\n");
-            // print(player_Y_vector);
-            print("Rotate To: "+rotateTo);
-            direction_to_turn = getShortestRotation();
-            print("direction_to_turn = "+direction_to_turn);
         }
-
-
-
 
         /*
             From the "START" to "END" below, this checks if none of the movement buttons are being held,
@@ -137,22 +112,26 @@ public class Player_Movement : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        // if(Input.GetKeyDown(KeyCode.Space)){
-        //     rb.AddForce(0f, 300f, 0f);
-        // }
+        if(isJumping){
+            rb.AddForce(0f, 300f, 0f);
+            // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
+            isJumping = false;
+        }
+        if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
+        // print(transform.position.y);
         
-
+        
         if(Input.GetKey(KeyCode.W)){
-            cameraDirectionMovement(mainCamera.transform.forward);
+            Movement(mainCamera.transform.forward);
         }
         if(Input.GetKey(KeyCode.S)){
-            cameraDirectionMovement(-mainCamera.transform.forward);
+            Movement(-mainCamera.transform.forward);
         }
         if(Input.GetKey(KeyCode.D)){
-            cameraDirectionMovement(mainCamera.transform.right);
+            Movement(mainCamera.transform.right);
         }
         if(Input.GetKey(KeyCode.A)){
-            cameraDirectionMovement(-mainCamera.transform.right);
+            Movement(-mainCamera.transform.right);
         }
     }
 
@@ -168,39 +147,41 @@ public class Player_Movement : MonoBehaviour
         // 5 = W & A,
         // 6 = S & D,
         // 7 = S & A
-        switch(face_direction){
-            case 0:
-                calculateEulerAngle(0);
-                smoothRotation();
-                break;
-            case 1:
-                calculateEulerAngle(180);
-                smoothRotation();
-                break;
-            case 2:
-                calculateEulerAngle(90);
-                smoothRotation();
-                break;
-            case 3:
-                calculateEulerAngle(-90);
-                smoothRotation();
-                break;
-            case 4:
-                calculateEulerAngle(45);
-                smoothRotation();
-                break;
-            case 5:
-                calculateEulerAngle(-45);
-                smoothRotation();
-                break;
-            case 6:
-                calculateEulerAngle(135);
-                smoothRotation();
-                break;
-            case 7:
-                calculateEulerAngle(-135);
-                smoothRotation();
-                break;
+        if(!lockOn.lock_on_state){
+            switch(face_direction){
+                case 0:
+                    calculateEulerAngle(0);
+                    smoothRotation();
+                    break;
+                case 1:
+                    calculateEulerAngle(180);
+                    smoothRotation();
+                    break;
+                case 2:
+                    calculateEulerAngle(90);
+                    smoothRotation();
+                    break;
+                case 3:
+                    calculateEulerAngle(-90);
+                    smoothRotation();
+                    break;
+                case 4:
+                    calculateEulerAngle(45);
+                    smoothRotation();
+                    break;
+                case 5:
+                    calculateEulerAngle(-45);
+                    smoothRotation();
+                    break;
+                case 6:
+                    calculateEulerAngle(135);
+                    smoothRotation();
+                    break;
+                case 7:
+                    calculateEulerAngle(-135);
+                    smoothRotation();
+                    break;
+            }
         }
     }
 
@@ -213,55 +194,12 @@ public class Player_Movement : MonoBehaviour
     }
 
     // Handle movement in a specific camera direction
-    private void cameraDirectionMovement(Vector3 direction)
-    {
+    private void Movement(Vector3 direction){
         movement = moveSpeed * Time.deltaTime * direction;
         rb.MovePosition(rb.position + movement);
     }
 
-    // private void smoothRotation(){
-    //     // float angle1 = Math.Abs(rotateTo.y - player_Y_vector.y);
-    //     // float angle2 = Math.Abs((player_Y_vector.y + 360) - rotateTo.y);
-    //     // if(Math.Min(angle1, angle2) == angle2 && player_Y_vector.y > rotateTo.y){
-    //     //     player_Y_vector.y--;
-    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     // }
-    //     // else if(Math.Min(angle1, angle2) == angle1 && player_Y_vector.y < rotateTo.y){
-    //     //     player_Y_vector.y++;
-    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     // }
-    //     // print("Difference: "+difference);
-    //     // if(direction_to_turn){
-    //     //     if(player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1) return;
-    //     //     else{
-    //     //         player_Y_vector.y++;
-    //     //         transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     //     }
-    //     // }
-    //     if(!direction_to_turn){//else{
-    //         if(player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1) return;
-    //         else{
-    //             player_Y_vector.y--;
-    //             transform.rotation = Quaternion.Euler(player_Y_vector);
-    //         }
-    //     }
-    //     // else if(!direction_to_turn && player_Y_vector.y > rotateTo.y - 1 && player_Y_vector.y < rotateTo.y + 1){
-    //     //     player_Y_vector.y--;
-    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     // }
-
-
-    //     // if(player_Y_vector.y < rotateTo.y){
-    //     //     player_Y_vector.y++;
-    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     // }
-    //     // else if(player_Y_vector.y > rotateTo.y){
-    //     //     player_Y_vector.y--;
-    //     //     transform.rotation = Quaternion.Euler(player_Y_vector);
-    //     // }
-    // }
-    private void smoothRotation()
-{
+    private void smoothRotation(){
     // Calculate the difference in angles (shortest path)
     float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
     
@@ -269,14 +207,14 @@ public class Player_Movement : MonoBehaviour
     float rotationSpeed = 200f; // Adjust this value to control the turning speed
 
     // If the difference is small, we can consider the rotation done
-    if (Mathf.Abs(angleDifference) > 0.1f) 
-    {
+    if (Mathf.Abs(angleDifference) > 0.1f){
         // Calculate how much to rotate this frame, based on rotation speed and frame rate
+        // Mathf.Sign() returns a 1 or -1 depending on the value that is passed into it
+        // if < 0 return -1 else return 1
         float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
 
         // Prevent overshooting the target angle by clamping the step
-        if (Mathf.Abs(rotationStep) > Mathf.Abs(angleDifference)) 
-        {
+        if (Mathf.Abs(rotationStep) > Mathf.Abs(angleDifference)){
             rotationStep = angleDifference; // Just finish the rotation
         }
 
@@ -285,29 +223,7 @@ public class Player_Movement : MonoBehaviour
 
         // Update the character's rotation
         transform.rotation = Quaternion.Euler(0f, player_Y_vector.y, 0f);
+        }
     }
-}
 
-
-    // private bool getShortestRotation(){
-    //     // Angle1 = turn right
-    //     // Angle2 = turn left
-    //     float angle1;
-    //     float angle2;
-    //     if(player_Y_vector.y > 180){
-    //         angle1 = Math.Abs((rotateTo.y + 360) - player_Y_vector.y);
-    //         angle2 = Math.Abs(player_Y_vector.y - rotateTo.y);
-    //     }
-    //     else{
-    //         angle1 = Math.Abs(rotateTo.y - player_Y_vector.y);
-    //         angle2 = Math.Abs((player_Y_vector.y + 360) - rotateTo.y);
-    //     }
-    //     print("FROM getShortestRotation()\n "+angle1+" : "+angle2);
-
-    //     return Math.Min(angle1, angle2) == angle1;
-    // }
-    private bool getShortestRotation(){
-        float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
-        return angleDifference > 0;  // If positive, turn right, if negative, turn left
-    }
 }
