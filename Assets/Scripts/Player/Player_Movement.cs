@@ -135,8 +135,6 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
-
-
     private void updateDirection(int face_direction){
         // Represents the keys being held
         // 0 = W, 
@@ -185,12 +183,11 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
-    // Rotates the player to the correct angle based on where the camera is facing
+    // Calculates the correct angle to rotate to based on where the camera is facing
     private void calculateEulerAngle(int angleValue){
         cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
         rotateTo = transform.rotation.eulerAngles;
         rotateTo.y = cameraRotation + angleValue;
-        // transform.rotation = Quaternion.Euler(rotateTo);
     }
 
     // Handle movement in a specific camera direction
@@ -223,7 +220,7 @@ public class Player_Movement : MonoBehaviour
 
         // Update the character's rotation
         transform.rotation = Quaternion.Euler(0f, player_Y_vector.y, 0f);
-        }
     }
+}
 
 }
