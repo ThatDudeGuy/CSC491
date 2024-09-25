@@ -10,17 +10,20 @@ public class Player_Movement : MonoBehaviour
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
     public bool isJumping;
+    public CharacterController controller;
 
     void Start()
     {
         Application.targetFrameRate = 60; // <- HERE is where I have set the game's target framerate. It runs at 60 frames per second.
         rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         cameraPoint = GameObject.FindGameObjectWithTag("CameraPoint");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         animator = GetComponent<Animator>();
         player_Y_vector = transform.rotation.eulerAngles;
         isJumping = false;
         lockOn = GetComponent<LockOn>();
+        // controller = GetComponent<CharacterController>();
     }
 
     private void Update() {
@@ -111,14 +114,21 @@ public class Player_Movement : MonoBehaviour
         // END
     }
 
+    private void LateUpdate(){
+        transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y, 0f);
+    }
+
     private void FixedUpdate() {
+        // Line below this comment is meant to ensure that the character does not fall over for any reason
+        // transform.rotation = Quaternion.Euler(0f,transform.rotation.y,0f);
+        if(lockOn.lock_on_state) followEnemy();
+
         if(isJumping){
             rb.AddForce(0f, 300f, 0f);
             // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
             isJumping = false;
         }
         if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
-        // print(transform.position.y);
         
         
         if(Input.GetKey(KeyCode.W)){
@@ -183,6 +193,11 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
+    // This will calculate the correct angle at which to face when locked on to an enemy
+    private void followEnemy(){
+        transform.rotation = Quaternion.LookRotation(lockOn.enemyDirection);
+    }
+
     // Calculates the correct angle to rotate to based on where the camera is facing
     private void calculateEulerAngle(int angleValue){
         cameraRotation = cameraPoint.transform.rotation.eulerAngles.y;
@@ -194,6 +209,9 @@ public class Player_Movement : MonoBehaviour
     private void Movement(Vector3 direction){
         movement = moveSpeed * Time.deltaTime * direction;
         rb.MovePosition(rb.position + movement);
+        
+        // Vector3 movement = moveSpeed * Time.deltaTime * direction;
+        // controller.Move(movement);
     }
 
     private void smoothRotation(){

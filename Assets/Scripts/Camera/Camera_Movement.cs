@@ -13,6 +13,9 @@ public class Camera_Movement : MonoBehaviour
     {
         turn.x += Input.GetAxis("Mouse X") * x_sensitivity;
         turn.y += Input.GetAxis("Mouse Y") * y_sensitivity;
+        // if(point.transform.localRotation.x * 100 < -14.8f){// || point.transform.rotation.eulerAngles.x > 24.5f) {
+        //     print(point.transform.localRotation.x * 100);
+        // }
         point.transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0);
         
     }

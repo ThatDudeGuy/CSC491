@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2577354186467066874}
   - component: {fileID: 769689528139071138}
+  - component: {fileID: 5235336381293494776}
   m_Layer: 0
   m_Name: ArrowSpawn
   m_TagString: Untagged
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPoint: {fileID: 0}
+--- !u!95 &5235336381293494776
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028822068006997597}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5f46480fea1e94a4b9e51c8a41c84ea2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5124379578343902361
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +79,6 @@ GameObject:
   - component: {fileID: 8414707243838787507}
   - component: {fileID: 1295780987032313811}
   - component: {fileID: 8219827568936648505}
-  - component: {fileID: 6059551398170947122}
   m_Layer: 0
   m_Name: arrowLockOn
   m_TagString: Untagged
@@ -130,16 +151,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6059551398170947122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5124379578343902361}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67486c656393f7349ad3141aaf663a37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPoint: {fileID: 0}
