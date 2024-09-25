@@ -31,12 +31,48 @@ public class Player_Movement : MonoBehaviour
             isJumping = true;
         }
 
+        handlePlayerInput();
+        handleSprinting();
+    }
+
+    private void LateUpdate(){
+        transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y, 0f);
+    }
+
+    private void FixedUpdate() {
+        if(lockOn.lock_on_state) followEnemy();
+
+        if(isJumping){
+            rb.AddForce(0f, 300f, 0f);
+            // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
+            isJumping = false;
+        }
+        if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
+        
+        Vector3 movementDirection = Vector3.zero;
+        
+        if(Input.GetKey(KeyCode.W)){
+            movementDirection += mainCamera.transform.forward;
+        }
+        if(Input.GetKey(KeyCode.S)){
+            movementDirection += -mainCamera.transform.forward;
+        }
+        if(Input.GetKey(KeyCode.D)){
+            movementDirection += mainCamera.transform.right;
+        }
+        if(Input.GetKey(KeyCode.A)){
+            movementDirection += -mainCamera.transform.right;
+        }
+
+        if (movementDirection != Vector3.zero) Movement(movementDirection);
+    }
+
+    private void handlePlayerInput(){
         /*
-            From the "START" to "END" below, this handles 8 directional movement and updates
-            the way the character is facing depending on which buttons the player is holding
+            This handles 8 directional movement and updates
+            the way the character is facing depends on which buttons the player is holding
         */
 
-        // START
         if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)){
             direction_to_face = 4;
             updateDirection(direction_to_face);
@@ -81,7 +117,6 @@ public class Player_Movement : MonoBehaviour
             updateDirection(direction_to_face);
             animator.SetBool("isWalking", true);
         }
-        // END
 
         if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A)){
             player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
@@ -89,9 +124,11 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)){
             player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
         }
+    }
 
+    private void handleSprinting() {
         /*
-            From the "START" to "END" below, this checks if none of the movement buttons are being held,
+            This checks if none of the movement buttons are being held,
             if so, then we know the player is no longer moving so we update a couple of booleans
             to stop and play the correct animations based off of the animator.
             Also resetting the movement speed back to its original value in the case where the player
@@ -101,7 +138,6 @@ public class Player_Movement : MonoBehaviour
             any movement buttons. We can change this behaviour if we please.
         */
 
-        // START
         if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)){
             animator.SetBool("isRunning", false);
             animator.SetBool("isWalking", false);
@@ -110,38 +146,6 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftShift) && animator.GetBool("isWalking")){
             animator.SetBool("isRunning", true);
             moveSpeed = 10f;
-        }
-        // END
-    }
-
-    private void LateUpdate(){
-        transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y, 0f);
-    }
-
-    private void FixedUpdate() {
-        // Line below this comment is meant to ensure that the character does not fall over for any reason
-        // transform.rotation = Quaternion.Euler(0f,transform.rotation.y,0f);
-        if(lockOn.lock_on_state) followEnemy();
-
-        if(isJumping){
-            rb.AddForce(0f, 300f, 0f);
-            // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
-            isJumping = false;
-        }
-        if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
-        
-        
-        if(Input.GetKey(KeyCode.W)){
-            Movement(mainCamera.transform.forward);
-        }
-        if(Input.GetKey(KeyCode.S)){
-            Movement(-mainCamera.transform.forward);
-        }
-        if(Input.GetKey(KeyCode.D)){
-            Movement(mainCamera.transform.right);
-        }
-        if(Input.GetKey(KeyCode.A)){
-            Movement(-mainCamera.transform.right);
         }
     }
 
@@ -207,6 +211,12 @@ public class Player_Movement : MonoBehaviour
 
     // Handle movement in a specific camera direction
     private void Movement(Vector3 direction){
+        // keep the Y value at 0 to eliminate the "bouncing" effect and prevents the player from
+        // moving towards to the camera when rotated in a certain direction 
+        direction.y = 0f;
+        // Without normalization, diagonal movement vectors have a magnitude of ~1.41 (square root of 2), while straight movement vectors have a magnitude of 1, resulting in faster diagonal movement.
+        // normalizing the vector helps keep the direction at which it travels uniform
+        direction.Normalize();
         movement = moveSpeed * Time.deltaTime * direction;
         rb.MovePosition(rb.position + movement);
         
