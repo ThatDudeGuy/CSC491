@@ -207,6 +207,9 @@ public class Player_Movement : MonoBehaviour
 
     // Handle movement in a specific camera direction
     private void Movement(Vector3 direction){
+        // keep the Y value at 0 to eliminate the "bouncing" effect and prevents the player from
+        // moving towards to the camera when rotated in a certain direction 
+        direction.y = 0f;
         movement = moveSpeed * Time.deltaTime * direction;
         rb.MovePosition(rb.position + movement);
         
