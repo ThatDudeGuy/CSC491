@@ -738,13 +738,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192866662708104299}
-  - component: {fileID: 184802808544972836}
   - component: {fileID: 1919306107007741941}
-  - component: {fileID: 3354461101799635112}
-  - component: {fileID: 5645476182255273799}
-  - component: {fileID: 7593759894990538959}
   - component: {fileID: 1351410395164535480}
+  - component: {fileID: 7593759894990538959}
+  - component: {fileID: 5645476182255273799}
   - component: {fileID: 6896976105409385136}
+  - component: {fileID: 2640787663840765508}
+  - component: {fileID: 184802808544972836}
   m_Layer: 0
   m_Name: Rogue
   m_TagString: Player
@@ -774,24 +774,6 @@ Transform:
   - {fileID: 7423022469940537850}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &184802808544972836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2001350049802426065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef7003c2b5a38304bb10d6a3ef594052, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockOn: {fileID: 0}
-  rb: {fileID: 7593759894990538959}
-  cameraPoint: {fileID: 0}
-  mainCamera: {fileID: 0}
-  animator: {fileID: 5645476182255273799}
-  isJumping: 0
 --- !u!136 &1919306107007741941
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -812,11 +794,11 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1.9097335
+  m_Height: 2.193585
   m_Direction: 1
-  m_Center: {x: 0, y: 1.2283636, z: 0}
---- !u!65 &3354461101799635112
-BoxCollider:
+  m_Center: {x: 0, y: 1.086438, z: 0.100000024}
+--- !u!135 &1351410395164535480
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -830,33 +812,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8939761, y: 0.2661103, z: 0.54919744}
-  m_Center: {x: -0.032265246, y: 0.12750858, z: 0.025018334}
---- !u!95 &5645476182255273799
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2001350049802426065}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9091398bc09d64347a49c9c24cb54a70, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_Radius: 22
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7593759894990538959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -884,27 +845,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!135 &1351410395164535480
-SphereCollider:
+--- !u!95 &5645476182255273799
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001350049802426065}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 22
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9091398bc09d64347a49c9c24cb54a70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6896976105409385136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,6 +887,50 @@ MonoBehaviour:
   listLength: 0
   shortestPath: 0
   enemyDirection: {x: 0, y: 0, z: 0}
+  lockImages:
+  - {fileID: 21300000, guid: a0d311a62ccd8294289aff8c7850b603, type: 3}
+  - {fileID: 21300000, guid: 5efb98b087f7b454dbdee79e59a870c4, type: 3}
+  ui_lock: {fileID: 0}
+--- !u!114 &2640787663840765508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001350049802426065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7850f93c260f14fbc6d5e71f951ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  animator: {fileID: 5645476182255273799}
+  staminaBar: {fileID: 0}
+  player: {fileID: 184802808544972836}
+--- !u!114 &184802808544972836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001350049802426065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7003c2b5a38304bb10d6a3ef594052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockOn: {fileID: 0}
+  rb: {fileID: 7593759894990538959}
+  cameraPoint: {fileID: 0}
+  mainCamera: {fileID: 0}
+  stepRayLower: {fileID: 0}
+  stepRayUpper: {fileID: 0}
+  animator: {fileID: 5645476182255273799}
+  cameraRotation: 0
+  moveSpeed: 5
+  stepHeight: 0.3
+  stepSmooth: 0.1
+  isJumping: 0
 --- !u!1 &2151570780510459730
 GameObject:
   m_ObjectHideFlags: 0

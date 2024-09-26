@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LockOn : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class LockOn : MonoBehaviour
     public int listLength;
     public double shortestPath = 0;
     public Vector3 enemyDirection = new(0,0,0);
+    // Below variables are set in the inspector
+    public Sprite[] lockImages; 
+    public Image ui_lock;
 
     void Start()
     {
@@ -40,6 +44,7 @@ public class LockOn : MonoBehaviour
             if(enemies.Count == 0){ 
                 lock_on_state = false;
                 Destroy(arrow);
+                ui_lock.sprite = lockImages[0];
             }
         }
         else return;
@@ -52,8 +57,14 @@ public class LockOn : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q)){
             if(enemies.Count > 0) lock_on_state = !lock_on_state;
 
-            if(lock_on_state) getClosestTarget();
-            else Destroy(arrow);
+            if(lock_on_state){ 
+                getClosestTarget();
+                ui_lock.sprite = lockImages[1];
+            }
+            else{
+                Destroy(arrow);
+                ui_lock.sprite = lockImages[0];
+            }
             // this destroys or removes the arrow from the game when the lock_on_state is false         
         }
         if(Input.GetKeyDown(KeyCode.F) && lock_on_state){

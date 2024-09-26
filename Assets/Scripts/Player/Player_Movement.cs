@@ -4,13 +4,13 @@ public class Player_Movement : MonoBehaviour
 {
     public LockOn lockOn;
     public Rigidbody rb;
-    public GameObject cameraPoint, mainCamera;
+    public GameObject cameraPoint, mainCamera, stepRayLower, stepRayUpper;
     public Animator animator;
-    float cameraRotation, moveSpeed = 5f;
+    public float cameraRotation, moveSpeed = 5f, stepHeight = 0.65f, stepSmooth = 10f;
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
     public bool isJumping;
-    public CharacterController controller;
+    // public CharacterController controller;
 
     void Start()
     {
@@ -23,8 +23,16 @@ public class Player_Movement : MonoBehaviour
         player_Y_vector = transform.rotation.eulerAngles;
         isJumping = false;
         lockOn = GetComponent<LockOn>();
+        stepHeight = 0.65f;
+        stepSmooth = 10f;
+        stepRayUpper.transform.position = new Vector3(0f, stepHeight, 0.6f);
         // controller = GetComponent<CharacterController>();
     }
+
+    // private void Awake() {
+    //     stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
+    // print(new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z));
+    // }
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Space)){
@@ -47,7 +55,7 @@ public class Player_Movement : MonoBehaviour
             // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
             isJumping = false;
         }
-        if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
+        // if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
         
         Vector3 movementDirection = Vector3.zero;
         
@@ -65,6 +73,8 @@ public class Player_Movement : MonoBehaviour
         }
 
         if (movementDirection != Vector3.zero) Movement(movementDirection);
+
+        stepClimb();
     }
 
     private void handlePlayerInput(){
@@ -225,30 +235,39 @@ public class Player_Movement : MonoBehaviour
     }
 
     private void smoothRotation(){
-    // Calculate the difference in angles (shortest path)
-    float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
-    
-    // Define the speed of rotation (degrees per second)
-    float rotationSpeed = 200f; // Adjust this value to control the turning speed
+        // Calculate the difference in angles (shortest path)
+        float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
+        
+        // Define the speed of rotation (degrees per second)
+        float rotationSpeed = 200f; // Adjust this value to control the turning speed
 
-    // If the difference is small, we can consider the rotation done
-    if (Mathf.Abs(angleDifference) > 0.1f){
-        // Calculate how much to rotate this frame, based on rotation speed and frame rate
-        // Mathf.Sign() returns a 1 or -1 depending on the value that is passed into it
-        // if < 0 return -1 else return 1
-        float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
+        // If the difference is small, we can consider the rotation done
+        if (Mathf.Abs(angleDifference) > 0.1f){
+            // Calculate how much to rotate this frame, based on rotation speed and frame rate
+            // Mathf.Sign() returns a 1 or -1 depending on the value that is passed into it
+            // if < 0 return -1 else return 1
+            float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
 
-        // Prevent overshooting the target angle by clamping the step
-        if (Mathf.Abs(rotationStep) > Mathf.Abs(angleDifference)){
-            rotationStep = angleDifference; // Just finish the rotation
+            // Prevent overshooting the target angle by clamping the step
+            if (Mathf.Abs(rotationStep) > Mathf.Abs(angleDifference)){
+                rotationStep = angleDifference; // Just finish the rotation
+            }
+
+            // Apply the rotation step to the current Y angle
+            player_Y_vector.y += rotationStep;
+
+            // Update the character's rotation
+            transform.rotation = Quaternion.Euler(0f, player_Y_vector.y, 0f);
         }
-
-        // Apply the rotation step to the current Y angle
-        player_Y_vector.y += rotationStep;
-
-        // Update the character's rotation
-        transform.rotation = Quaternion.Euler(0f, player_Y_vector.y, 0f);
     }
-}
 
+    void stepClimb(){
+        RaycastHit hitLower;
+        if(Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f)){
+            RaycastHit hitUpper;
+            if(!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f)){
+                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+    }
 }
