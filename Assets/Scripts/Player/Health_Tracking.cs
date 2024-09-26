@@ -5,13 +5,14 @@ public class Health_Tracking : MonoBehaviour
 {
     public int health;
     public Animator animator;
-    public Slider staminaBar;
+    public Slider staminaBar, healthBar;
     public Player_Movement player;
-    // Start is called before the first frame update
+
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GetComponent<Player_Movement>();
+        health = 100;
         // staminaBar = 
     }
 
@@ -22,5 +23,10 @@ public class Health_Tracking : MonoBehaviour
             animator.SetBool("isRunning", false);
             player.moveSpeed = 5f;
         }
+    }
+
+    public void damagePlayer(int damageAmount){
+        health -= damageAmount;
+        healthBar.value = health;
     }
 }
