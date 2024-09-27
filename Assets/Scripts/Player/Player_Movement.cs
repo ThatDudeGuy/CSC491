@@ -10,6 +10,7 @@ public class Player_Movement : MonoBehaviour
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
     public bool isJumping;
+    public Ground_Check ground_Check;
     // public CharacterController controller;
 
     void Start()
@@ -25,6 +26,7 @@ public class Player_Movement : MonoBehaviour
         lockOn = GetComponent<LockOn>();
         stepHeight = 0.65f;
         stepSmooth = 10f;
+        ground_Check = GetComponent<Ground_Check>();
         // stepRayUpper.transform.position = new Vector3(0f, stepHeight, 0.6f);
         // controller = GetComponent<CharacterController>();
     }
@@ -53,7 +55,7 @@ public class Player_Movement : MonoBehaviour
     private void FixedUpdate() {
         if(lockOn.lock_on_state) followEnemy();
 
-        if(isJumping){
+        if(isJumping && ground_Check.isGrounded == true){
             rb.AddForce(0f, 300f, 0f);
             // if(transform.position.y > 1.5f){print("Threshold reached");}//rb.mass = 5;}
             isJumping = false;
