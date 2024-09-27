@@ -25,7 +25,7 @@ public class Player_Movement : MonoBehaviour
         lockOn = GetComponent<LockOn>();
         stepHeight = 0.65f;
         stepSmooth = 10f;
-        stepRayUpper.transform.position = new Vector3(0f, stepHeight, 0.6f);
+        // stepRayUpper.transform.position = new Vector3(0f, stepHeight, 0.6f);
         // controller = GetComponent<CharacterController>();
     }
 
@@ -44,7 +44,10 @@ public class Player_Movement : MonoBehaviour
     }
 
     private void LateUpdate(){
+        // Ensures a bug won't occur that constantly spins the Rigidbody in the Y direction
+        // or knocks the player over
         transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y, 0f);
+        rb.constraints = RigidbodyConstraints.FreezeRotationY;
     }
 
     private void FixedUpdate() {
@@ -74,7 +77,7 @@ public class Player_Movement : MonoBehaviour
 
         if (movementDirection != Vector3.zero) Movement(movementDirection);
 
-        stepClimb();
+        // stepClimb();
     }
 
     private void handlePlayerInput(){

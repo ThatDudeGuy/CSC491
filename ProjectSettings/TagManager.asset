@@ -12,6 +12,7 @@ TagManager:
   - Lock
   - Health
   - EnemyWeapon
+  - Potion
   layers:
   - Default
   - TransparentFX

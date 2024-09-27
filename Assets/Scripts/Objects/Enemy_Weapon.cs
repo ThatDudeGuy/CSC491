@@ -6,7 +6,7 @@ public class Enemy_Weapon : MonoBehaviour
     Animator masterAnimator;
     Health_Tracking player_health;
     public int damageValue; 
-    bool stopDamage;
+    bool canDamagePlayer;
 
     void Start()
     {
@@ -19,14 +19,22 @@ public class Enemy_Weapon : MonoBehaviour
         // Now `currentTransform` is the master parent
         masterAnimator = currentTransform.GetComponent<Animator>();
 
-        if(name.Contains("Blade")) damageValue = 20;
+        if(name.Contains("Blade")) damageValue = 10;
+        canDamagePlayer = false;
     }
 
     private void OnTriggerEnter(Collider other){
-        if(other.CompareTag("Player") && masterAnimator.GetBool("Attack")){
+        if(other.CompareTag("Player") && canDamagePlayer){
             player_health.damagePlayer(damageValue);
         } 
         else return;
+    }
+
+    public void damageOn(){
+        canDamagePlayer = true;
+    }
+    public void damageOff(){
+        canDamagePlayer = false;
     }
 
 }

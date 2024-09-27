@@ -1327,6 +1327,10 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 1364503029}
+    - target: {fileID: 7593759894990538959, guid: e203e3e53a127f14da7f21dd4e24f8de, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

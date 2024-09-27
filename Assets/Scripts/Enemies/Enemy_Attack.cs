@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Attack : MonoBehaviour
 {
+    public Enemy_Weapon weapon;
     // Start is called before the first frame update
     void Start()
     {
-        
+        weapon = GetComponentInChildren<Enemy_Weapon>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void call_damageOn(){
+        weapon.damageOn();
+    }
+    public void call_damageOff(){
+        weapon.damageOff();
     }
 }

@@ -29,4 +29,10 @@ public class Health_Tracking : MonoBehaviour
         health -= damageAmount;
         healthBar.value = health;
     }
+
+    public void regenHealth(int regenAmount){
+        health += regenAmount;
+        if(health > 100) health = 100;
+        healthBar.value = health;
+    }
 }
