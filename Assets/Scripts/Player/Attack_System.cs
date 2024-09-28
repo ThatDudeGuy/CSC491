@@ -3,11 +3,13 @@ using UnityEngine;
 public class Attack_System : MonoBehaviour
 {
     public Animator animator;
+    public Player_Movement player_Movement;
     public int attackPhase = 0, counter = 0;
     public bool canContinue = true;
     void Start()
     {
         animator = GetComponent<Animator>();
+        player_Movement = GetComponent<Player_Movement>();
     }
 
     void Update()
@@ -16,10 +18,10 @@ public class Attack_System : MonoBehaviour
             print("Mouse Left");
             attackChain();
         }
-        if(canContinue && Input.GetMouseButton(0)){
-            print("Mouse Left");
-            attackChain();
-        }
+        // if(canContinue && Input.GetMouseButton(0)){
+        //     print("Mouse Left");
+        //     attackChain();
+        // }
 
         if(attackPhase > 0) checkAttackChain();
     }
@@ -28,20 +30,20 @@ public class Attack_System : MonoBehaviour
         switch(attackPhase){
             case 0:
                 animator.SetBool("isAttacking", true);
+                attackPhase++;
                 break;
             case 1:
-                animator.SetBool("attackChain", true);
+                if(animator.GetBool("isAttacking")) animator.SetBool("attackChain", true);
+                attackPhase++;
                 break;
             case >= 2:
-                animator.SetBool("thrustAttack", true);
+                if(animator.GetBool("attackChain")) animator.SetBool("thrustAttack", true);
                 attackPhase = 0;
                 counter = 0;
-                firstAttackOff();
-                secondAttackOff();
                 return;
         }
         counter = 0;
-        attackPhase++;
+        
     }
 
     // There are different ways in Unity to acheive this result
@@ -50,14 +52,20 @@ public class Attack_System : MonoBehaviour
     // and the the animations and chain reset
     void checkAttackChain(){
         counter++;
-        if(counter >= Application.targetFrameRate * 2 && attackPhase >= 1){
+        if(counter >= Application.targetFrameRate * 2 - Application.targetFrameRate/2 && attackPhase >= 1){
             counter = 0;
             attackPhase = 0;
-            firstAttackOff();
-            secondAttackOff();
+            // firstAttackOff();
+            // secondAttackOff();
+            allAttacksOff();
         }
     }
 
+    public void allAttacksOff(){
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("attackChain", false);
+        animator.SetBool("thrustAttack", false);
+    }
     public void firstAttackOff(){
         animator.SetBool("isAttacking", false);
     }
@@ -67,10 +75,15 @@ public class Attack_System : MonoBehaviour
 
     // Below 2 functions are used as animation events on attack animations
     public void thirdAttackOff(){
+        firstAttackOff();
+        secondAttackOff();
         animator.SetBool("thrustAttack", false);
     }
     public void toggle_canContinue(){
         canContinue = !canContinue;
+        player_Movement.canMove = canContinue;
+        player_Movement.moveSpeed = canContinue ? 5f : 0f;
+        print(canContinue);
     }
 
     // This function is an animation event on the thrust attack

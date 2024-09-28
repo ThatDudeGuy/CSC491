@@ -9,7 +9,7 @@ public class Player_Movement : MonoBehaviour
     public float cameraRotation, moveSpeed = 5f, stepHeight = 0.65f, stepSmooth = 10f;
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
-    public bool isJumping;
+    public bool isJumping, canMove = true;
     public Ground_Check ground_Check;
     // public CharacterController controller;
 
@@ -49,7 +49,7 @@ public class Player_Movement : MonoBehaviour
         // Ensures a bug won't occur that constantly spins the Rigidbody in the Y direction
         // or knocks the player over
         transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y, 0f);
-        rb.constraints = RigidbodyConstraints.FreezeRotationY;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void FixedUpdate() {
@@ -61,7 +61,7 @@ public class Player_Movement : MonoBehaviour
             isJumping = false;
         }
         // if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
-        
+        if(canMove){
         Vector3 movementDirection = Vector3.zero;
         
         if(Input.GetKey(KeyCode.W)){
@@ -78,7 +78,7 @@ public class Player_Movement : MonoBehaviour
         }
 
         if (movementDirection != Vector3.zero) Movement(movementDirection);
-
+        }
         // stepClimb();
     }
 
