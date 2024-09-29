@@ -17,8 +17,8 @@ public class Health_Tracking : MonoBehaviour
     }
 
     private void FixedUpdate(){
-        if(animator.GetBool("isRunning")) staminaBar.value -= 0.5f;
-        else if(!animator.GetBool("isRunning") && staminaBar.value < 100) staminaBar.value += 0.2f;
+        if(animator.GetBool("isRunning") && !animator.GetBool("isAttacking") && !animator.GetBool("attackChain") && !animator.GetBool("thrustAttack")) staminaBar.value -= 0.5f;
+        else if(!animator.GetBool("isRunning") && staminaBar.value < 100 || player.moveSpeed == 0) staminaBar.value += 0.2f;
         if(staminaBar.value <= 0){
             animator.SetBool("isRunning", false);
             player.moveSpeed = 5f;

@@ -6,7 +6,7 @@ public class Player_Movement : MonoBehaviour
     public Rigidbody rb;
     public GameObject cameraPoint, mainCamera, stepRayLower, stepRayUpper;
     public Animator animator;
-    public float cameraRotation, moveSpeed = 5f, stepHeight = 0.65f, stepSmooth = 10f;
+    public float cameraRotation, moveSpeed = 5f, stepHeight = 0.65f, stepSmooth = 10f, lockOn_rotation_speed = 3.5f;
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
     public bool isJumping, canMove = true;
@@ -62,22 +62,22 @@ public class Player_Movement : MonoBehaviour
         }
         // if(transform.position.y > 1.5f){rb.AddForce(0f, -100f, 0f);}
         if(canMove){
-        Vector3 movementDirection = Vector3.zero;
-        
-        if(Input.GetKey(KeyCode.W)){
-            movementDirection += mainCamera.transform.forward;
-        }
-        if(Input.GetKey(KeyCode.S)){
-            movementDirection += -mainCamera.transform.forward;
-        }
-        if(Input.GetKey(KeyCode.D)){
-            movementDirection += mainCamera.transform.right;
-        }
-        if(Input.GetKey(KeyCode.A)){
-            movementDirection += -mainCamera.transform.right;
-        }
+            Vector3 movementDirection = Vector3.zero;
+            
+            if(Input.GetKey(KeyCode.W)){
+                movementDirection += mainCamera.transform.forward;
+            }
+            if(Input.GetKey(KeyCode.S)){
+                movementDirection += -mainCamera.transform.forward;
+            }
+            if(Input.GetKey(KeyCode.D)){
+                movementDirection += mainCamera.transform.right;
+            }
+            if(Input.GetKey(KeyCode.A)){
+                movementDirection += -mainCamera.transform.right;
+            }
 
-        if (movementDirection != Vector3.zero) Movement(movementDirection);
+            if (movementDirection != Vector3.zero) Movement(movementDirection);
         }
         // stepClimb();
     }
@@ -214,7 +214,10 @@ public class Player_Movement : MonoBehaviour
 
     // This will calculate the correct angle at which to face when locked on to an enemy
     private void followEnemy(){
-        transform.rotation = Quaternion.LookRotation(lockOn.enemyDirection);
+        Quaternion targetRotation = Quaternion.LookRotation(lockOn.enemyDirection);
+        transform.rotation = targetRotation;
+        cameraPoint.transform.rotation = Quaternion.Slerp(cameraPoint.transform.rotation, targetRotation, Time.deltaTime * lockOn_rotation_speed);
+        // cameraPoint.transform.rotation = Quaternion.LookRotation(lockOn.enemyDirection);
     }
 
     // Calculates the correct angle to rotate to based on where the camera is facing
@@ -244,7 +247,7 @@ public class Player_Movement : MonoBehaviour
         float angleDifference = Mathf.DeltaAngle(player_Y_vector.y, rotateTo.y);
         
         // Define the speed of rotation (degrees per second)
-        float rotationSpeed = 200f; // Adjust this value to control the turning speed
+        float rotationSpeed = 275f; // Adjust this value to control the turning speed
 
         // If the difference is small, we can consider the rotation done
         if (Mathf.Abs(angleDifference) > 0.1f){

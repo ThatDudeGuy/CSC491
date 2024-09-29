@@ -4,12 +4,14 @@ public class Attack_System : MonoBehaviour
 {
     public Animator animator;
     public Player_Movement player_Movement;
+    public Player_Weapon[] weapons;
     public int attackPhase = 0, counter = 0;
     public bool canContinue = true;
     void Start()
     {
         animator = GetComponent<Animator>();
         player_Movement = GetComponent<Player_Movement>();
+        weapons = GetComponentsInChildren<Player_Weapon>();
     }
 
     void Update()
@@ -30,18 +32,17 @@ public class Attack_System : MonoBehaviour
         switch(attackPhase){
             case 0:
                 animator.SetBool("isAttacking", true);
-                attackPhase++;
                 break;
             case 1:
-                if(animator.GetBool("isAttacking")) animator.SetBool("attackChain", true);
-                attackPhase++;
+                animator.SetBool("attackChain", true);
                 break;
             case >= 2:
-                if(animator.GetBool("attackChain")) animator.SetBool("thrustAttack", true);
+                animator.SetBool("thrustAttack", true);
                 attackPhase = 0;
                 counter = 0;
                 return;
         }
+        if(!animator.GetBool("thrustAttack")) attackPhase++;
         counter = 0;
         
     }
@@ -52,7 +53,7 @@ public class Attack_System : MonoBehaviour
     // and the the animations and chain reset
     void checkAttackChain(){
         counter++;
-        if(counter >= Application.targetFrameRate * 2 - Application.targetFrameRate/2 && attackPhase >= 1){
+        if(counter >= Application.targetFrameRate + Application.targetFrameRate/4 && attackPhase >= 1){
             counter = 0;
             attackPhase = 0;
             // firstAttackOff();
@@ -66,6 +67,8 @@ public class Attack_System : MonoBehaviour
         animator.SetBool("attackChain", false);
         animator.SetBool("thrustAttack", false);
     }
+    
+    // Below functions are used as animation events on attack animations
     public void firstAttackOff(){
         animator.SetBool("isAttacking", false);
     }
@@ -73,17 +76,28 @@ public class Attack_System : MonoBehaviour
         animator.SetBool("attackChain", false);
     }
 
-    // Below 2 functions are used as animation events on attack animations
     public void thirdAttackOff(){
-        firstAttackOff();
-        secondAttackOff();
+        // firstAttackOff();
+        // secondAttackOff();
         animator.SetBool("thrustAttack", false);
     }
     public void toggle_canContinue(){
         canContinue = !canContinue;
         player_Movement.canMove = canContinue;
-        player_Movement.moveSpeed = canContinue ? 5f : 0f;
-        print(canContinue);
+        if(player_Movement.animator.GetBool("isRunning")){
+            player_Movement.moveSpeed = canContinue ? 10f : 0f;
+        }
+        else player_Movement.moveSpeed = canContinue ? 5f : 0f;
+    }
+    public void call_damageOn(){
+        foreach(Player_Weapon weapon in weapons){
+            weapon.damageOn();
+        } 
+    }
+    public void call_damageOff(){
+        foreach(Player_Weapon weapon in weapons){
+            weapon.damageOff();
+        } 
     }
 
     // This function is an animation event on the thrust attack
