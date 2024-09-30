@@ -19,8 +19,9 @@ public class Player_Weapon : MonoBehaviour
         // if(other.CompareTag("Skeleton") && canDamageEnemy){
         //     // enemy_health.damageEnemy(damageValue);
         // } 
-        if(other.CompareTag("Skeleton") && gameObject.GetComponent<BoxCollider>() != null && canDamageEnemy){
-            print("Damage enemy");
+        if(other.CompareTag("Skeleton") && canDamageEnemy){
+            other.gameObject.GetComponent<States>().damageEnemy(damageValue);
+            print("From Player weapon: Damage Enemy");
         }
         else return;
     }

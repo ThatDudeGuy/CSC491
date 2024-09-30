@@ -23,7 +23,7 @@ public class Player_Movement : MonoBehaviour
         animator = GetComponent<Animator>();
         player_Y_vector = transform.rotation.eulerAngles;
         isJumping = false;
-        lockOn = GetComponent<LockOn>();
+        lockOn = GetComponentInChildren<LockOn>();
         stepHeight = 0.65f;
         stepSmooth = 10f;
         ground_Check = GetComponent<Ground_Check>();
