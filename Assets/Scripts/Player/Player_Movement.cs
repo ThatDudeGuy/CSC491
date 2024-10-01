@@ -95,46 +95,46 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)){
             direction_to_face = 4;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
         else if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A)){
             direction_to_face = 5;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
         else if(Input.GetKey(KeyCode.W)){
             direction_to_face = 0;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
 
 
         if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D)){
             direction_to_face = 6;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
         else if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A)){
             direction_to_face = 7;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
         else if(Input.GetKey(KeyCode.S)){
             direction_to_face = 1;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
 
 
         if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)){
             direction_to_face = 2;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
         if(Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)){
             direction_to_face = 3;
             updateDirection(direction_to_face);
-            animator.SetBool("isWalking", true);
+            amWalking();
         }
 
         if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A)){
@@ -143,6 +143,11 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)){
             player_Y_vector = new Vector3(0f, transform.eulerAngles.y, 0f);
         }
+    }
+
+    void amWalking(){
+        if(moveSpeed == 0) animator.SetBool("isWalking", false);
+        else animator.SetBool("isWalking", true);
     }
 
     private void handleSprinting() {

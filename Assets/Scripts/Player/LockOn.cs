@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -80,6 +81,7 @@ public class LockOn : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F) && lock_on_state){
             getClosestTarget();
         }
+        if(arrow) arrow.transform.position = new Vector3(closestEnemy.transform.position.x, closestEnemy.transform.localPosition.y + 3.5f, closestEnemy.transform.position.z);
     }
 
     private void FixedUpdate() {

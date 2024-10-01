@@ -23,6 +23,7 @@ public class Attack_System : MonoBehaviour
             player_Movement.setMoveSpeed(0f);
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", false);
+            player_Movement.canMove = false;
         }
         else if(canContinue && Input.GetMouseButtonDown(0)){
             print("Mouse Left");
@@ -32,6 +33,7 @@ public class Attack_System : MonoBehaviour
         if(Input.GetMouseButtonUp(1)){
             toggleBlocking(false);
             player_Movement.setMoveSpeed(5f);
+            player_Movement.canMove = true;
         }
 
         // if(canContinue && Input.GetMouseButton(0)){
