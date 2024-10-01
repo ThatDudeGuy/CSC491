@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class States : MonoBehaviour
 {
-    public bool out_of_range, deathSwitch;
+    public bool out_of_range, deathSwitch, angry;
     public int health;
     public Animator animator;
     public LockOn lockOn_system;
     public Rigidbody rb;
     public CapsuleCollider bodyHitBox;
+    public int walkAnim, runAnim;
+    public float moveSpeed;
+    
     void Start()
     {
         out_of_range = true;
@@ -17,6 +20,12 @@ public class States : MonoBehaviour
         deathSwitch = animator.GetBool("isDead?");
         rb = GetComponent<Rigidbody>();
         bodyHitBox = GetComponent<CapsuleCollider>();
+        walkAnim = Random.Range(0,3);
+        runAnim = Random.Range(0,3);
+        randomAngry();
+        animator.SetInteger("WalkingAnim", walkAnim);
+        animator.SetInteger("RunningAnim", runAnim);
+        moveSpeed = 4f;
     }
 
     private void Update() {
@@ -41,6 +50,12 @@ public class States : MonoBehaviour
         else return;
     }
 
+    void randomAngry(){
+        angry = Random.Range(0,2) == 1;
+    }
 
+    public void setMoveSpeed(float speed){
+        moveSpeed = speed;
+    }
 
 }
