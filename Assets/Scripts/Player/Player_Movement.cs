@@ -82,6 +82,10 @@ public class Player_Movement : MonoBehaviour
         // stepClimb();
     }
 
+    public void setMoveSpeed(float newSpeed){
+        moveSpeed = newSpeed;
+    }
+
     private void handlePlayerInput(){
         /*
             This handles 8 directional movement and updates
@@ -156,11 +160,11 @@ public class Player_Movement : MonoBehaviour
         if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)){
             animator.SetBool("isRunning", false);
             animator.SetBool("isWalking", false);
-            moveSpeed = 5f;
+            setMoveSpeed(5f);
         }
         if(Input.GetKeyDown(KeyCode.LeftShift) && animator.GetBool("isWalking")){
             animator.SetBool("isRunning", true);
-            moveSpeed = 10f;
+            setMoveSpeed(10f);
         }
     }
 

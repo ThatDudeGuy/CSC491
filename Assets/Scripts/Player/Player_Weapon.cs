@@ -16,9 +16,6 @@ public class Player_Weapon : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other){
-        // if(other.CompareTag("Skeleton") && canDamageEnemy){
-        //     // enemy_health.damageEnemy(damageValue);
-        // } 
         if(other.CompareTag("Skeleton") && canDamageEnemy){
             other.gameObject.GetComponent<States>().damageEnemy(damageValue);
             print("From Player weapon: Damage Enemy");
@@ -36,8 +33,4 @@ public class Player_Weapon : MonoBehaviour
         hitbox.enabled = false;
     }
 
-    // bool isAttacking(){
-    //     if(animator.GetBool("isAttacking") || animator.GetBool("attackChain") || animator.GetBool("thrustAttack")) return true;
-    //     else return false;
-    // }
 }

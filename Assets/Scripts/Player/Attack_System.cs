@@ -16,10 +16,24 @@ public class Attack_System : MonoBehaviour
 
     void Update()
     {
-        if(canContinue && Input.GetMouseButtonDown(0)){
+        
+        if(canContinue && Input.GetMouseButton(1)){
+            // print("Mouse Right");
+            toggleBlocking(true);
+            player_Movement.setMoveSpeed(0f);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+        }
+        else if(canContinue && Input.GetMouseButtonDown(0)){
             print("Mouse Left");
             attackChain();
         }
+        
+        if(Input.GetMouseButtonUp(1)){
+            toggleBlocking(false);
+            player_Movement.setMoveSpeed(5f);
+        }
+
         // if(canContinue && Input.GetMouseButton(0)){
         //     print("Mouse Left");
         //     attackChain();
@@ -99,6 +113,11 @@ public class Attack_System : MonoBehaviour
             weapon.damageOff();
         } 
     }
+
+    void toggleBlocking(bool toggle){
+        animator.SetBool("isBlocking", toggle);
+    }
+
 
     // This function is an animation event on the thrust attack
     // This will lunge the player foward and return them to their original position

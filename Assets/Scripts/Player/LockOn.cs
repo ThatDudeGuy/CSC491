@@ -42,7 +42,7 @@ public class LockOn : MonoBehaviour
 
     private void OnTriggerExit(Collider other) {
         // This function triggers whenever an enemy leaves the sphere collider
-        if(other.CompareTag("Skeleton")){
+        if(other.CompareTag("Skeleton") && !other.GetComponent<States>().animator.GetBool("isDead?")){
             enemies.Remove(other.gameObject);
             other.GetComponent<States>().out_of_range = true;
             print(enemies.Count);

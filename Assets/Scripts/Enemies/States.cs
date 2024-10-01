@@ -6,6 +6,8 @@ public class States : MonoBehaviour
     public int health;
     public Animator animator;
     public LockOn lockOn_system;
+    public Rigidbody rb;
+    public CapsuleCollider bodyHitBox;
     void Start()
     {
         out_of_range = true;
@@ -13,6 +15,8 @@ public class States : MonoBehaviour
         health = 15;
         lockOn_system = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<LockOn>();
         deathSwitch = animator.GetBool("isDead?");
+        rb = GetComponent<Rigidbody>();
+        bodyHitBox = GetComponent<CapsuleCollider>();
     }
 
     private void Update() {
@@ -31,6 +35,8 @@ public class States : MonoBehaviour
             if(lockOn_system.lock_on_state){
                 lockOn_system.getClosestTarget();
             }
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            bodyHitBox.enabled = false;
         }
         else return;
     }
