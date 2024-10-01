@@ -23,6 +23,8 @@ public class Ai_Navigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(agent.remainingDistance <= agent.stoppingDistance) animator.SetBool("Attack", true);
+        else animator.SetBool("Attack", false);
         if(!animator.GetBool("isDead?")){
             if(touchedPlayer) agent.destination = new Vector3(0,transform.position.y,0);
             else agent.destination = player.position;
