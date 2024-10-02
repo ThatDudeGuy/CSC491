@@ -7,13 +7,19 @@ public class Health_Tracking : MonoBehaviour
     public Animator animator;
     public Slider staminaBar, healthBar;
     public Player_Movement player;
+    public DeathofMainPlayerLogic mp;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GetComponent<Player_Movement>();
         health = 100;
+        mp = GetComponent<DeathofMainPlayerLogic>();
         // staminaBar = 
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Z)) damagePlayer(100);
     }
 
     private void FixedUpdate(){
@@ -28,6 +34,13 @@ public class Health_Tracking : MonoBehaviour
     public void damagePlayer(int damageAmount){
         health -= damageAmount;
         healthBar.value = health;
+        if (health <= 0)
+        {
+            {
+                mp.Die(); // Was characterController
+                animator.SetBool("isDead",true);
+            }
+        }
     }
 
     public void regenHealth(int regenAmount){
