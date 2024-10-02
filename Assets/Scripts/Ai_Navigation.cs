@@ -7,6 +7,7 @@ public class Ai_Navigation : MonoBehaviour
     public Animator animator;
     public States enemy;
     NavMeshAgent agent;
+    public Vector3 destination, pathPoint;
     public bool touchedPlayer, onPath;
 
     void Start()
@@ -41,7 +42,9 @@ public class Ai_Navigation : MonoBehaviour
         }
         else {
             if(agent.remainingDistance <= agent.stoppingDistance){
-                agent.destination = startPath.position;
+                // agent.destination = startPath.position;
+                changeDestination(agent.destination);
+                
             // animator.SetBool("Attack", false);
             // animator.SetBool("isRunning", false);
             // animator.SetBool("isWalking", true);
@@ -51,7 +54,7 @@ public class Ai_Navigation : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("isRunning", false);
                 animator.SetBool("isWalking", true);
-                agent.speed = 4.5f;
+                agent.speed = 3f;
             }
             // enemy.setMoveSpeed(4f);           
         }
@@ -62,5 +65,10 @@ public class Ai_Navigation : MonoBehaviour
         // else{
         //     agent.isStopped = true;
         // }
+    }
+
+    void changeDestination(Vector3 point){
+        if(point.x == startPath.position.x && point.z == startPath.position.z) agent.destination = endPath.position;
+        else if(point.x == endPath.position.x && point.z == endPath.position.z) agent.destination = startPath.position;
     }
 }
