@@ -10,6 +10,7 @@ public class Ai_Navigation : MonoBehaviour
     public Vector3 destination, pathPoint;
     public Rigidbody rb;
     public bool playerFound, patrolling;
+    public int counter;
 
     void Start()
     {
@@ -43,8 +44,17 @@ public class Ai_Navigation : MonoBehaviour
         // Patrolling gets set to false either when the enemy dies in States.cs
         // and when the player is within Eye_Sight range
         if(patrolling){ //!animator.GetBool("isDead?"
+            agent.stoppingDistance = 0;
             if(agent.remainingDistance <= agent.stoppingDistance){
-                changeDestination(agent.destination);
+                agent.isStopped = true;
+                animator.SetBool("isWalking", false);
+                counter++;
+                if (counter >= Application.targetFrameRate * 1.5){
+                    changeDestination(agent.destination);
+                    counter = 0;
+                    agent.isStopped = false;
+                }
+                
             }
             else{
                 animator.SetBool("Attack", false);
@@ -59,13 +69,16 @@ public class Ai_Navigation : MonoBehaviour
     void chasePlayer(){
         if(!animator.GetBool("isDead?")){
             agent.destination = player.position;
+            agent.stoppingDistance = 2f;
             transform.LookAt(player.position);
             if(agent.remainingDistance <= agent.stoppingDistance){
                 // rb.isKinematic = false;
                 agent.isStopped = true;
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", false);
-                animator.SetBool("Attack", true);
+                // animator.SetBool("Attack", true);
+                agent.speed = 3f;
+                enemy.continuousAttack();
             }
             else if(agent.remainingDistance > agent.stoppingDistance){
                 agent.isStopped = false;

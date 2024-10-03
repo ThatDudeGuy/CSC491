@@ -7,6 +7,9 @@ public class Eye_Sight : MonoBehaviour
     float nextRaycastTime = 0f;
     float raycastInterval = 0.2f;
 
+    // Below is set in the inspector
+    public GameObject sightRange;
+
     private void Start() {
         ai_Navigation = enemy.GetComponent<Ai_Navigation>();
     }
@@ -17,15 +20,16 @@ public class Eye_Sight : MonoBehaviour
                 checkForWall(enemy.transform.position, player.transform.position);
                 nextRaycastTime = Time.time + raycastInterval;
             }
+            if(ai_Navigation.animator.GetBool("isDead?")) Destroy(sightRange);
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        if(other.gameObject.CompareTag("Player")){
-            print("I DON'T see you");
-        }
-        else return;
-    }
+    // private void OnTriggerExit(Collider other) {
+    //     if(other.gameObject.CompareTag("Player")){
+    //         print("I DON'T see you");
+    //     }
+    //     else return;
+    // }
 
     public bool checkForWall(Vector3 start, Vector3 end){
         Vector3 start_position = start;//new(enemy.transform.position.x, enemy.transform.position.y + 1, enemy.transform.position.z);

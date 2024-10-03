@@ -10,7 +10,7 @@ public class States : MonoBehaviour
     public CapsuleCollider bodyHitBox;
     public Ai_Navigation ai_Navigation;
     public int walkAnim, runAnim;
-    public float moveSpeed;
+    public float nextAttackTime = 0f, attackInterval = 1.5f;
     
     void Start()
     {
@@ -29,7 +29,6 @@ public class States : MonoBehaviour
             animator.SetInteger("WalkingAnim", walkAnim);
             animator.SetInteger("RunningAnim", runAnim);
         }
-        moveSpeed = 4f;
     }
 
     private void Update() {
@@ -62,12 +61,18 @@ public class States : MonoBehaviour
         else return;
     }
 
-    void randomAngry(){
-        angry = Random.Range(0,2) == 1;
+    // This function will make the enemy attack, wait a second, and
+    // then attack again
+    public void continuousAttack(){
+        animator.SetBool("Attack", true);
+        if (Time.time >= nextAttackTime){
+            nextAttackTime = Time.time + attackInterval;
+            animator.SetBool("Attack", false);
+        }
     }
 
-    public void setMoveSpeed(float speed){
-        moveSpeed = speed;
+    void randomAngry(){
+        angry = Random.Range(0,2) == 1;
     }
 
 }
