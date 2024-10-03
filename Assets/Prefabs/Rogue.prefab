@@ -111,6 +111,7 @@ MonoBehaviour:
   movement: {x: 0, y: 0, z: 0}
   camera_Y_vector: {x: 0, y: 0, z: 0}
   mainCamera: {fileID: 0}
+  eye_Sight: {fileID: 0}
   lockImages:
   - {fileID: 21300000, guid: a0d311a62ccd8294289aff8c7850b603, type: 3}
   - {fileID: 21300000, guid: 5efb98b087f7b454dbdee79e59a870c4, type: 3}
