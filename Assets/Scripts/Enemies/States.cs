@@ -20,11 +20,13 @@ public class States : MonoBehaviour
         deathSwitch = animator.GetBool("isDead?");
         rb = GetComponent<Rigidbody>();
         bodyHitBox = GetComponent<CapsuleCollider>();
-        walkAnim = Random.Range(0,3);
-        runAnim = Random.Range(0,3);
-        randomAngry();
-        animator.SetInteger("WalkingAnim", walkAnim);
-        animator.SetInteger("RunningAnim", runAnim);
+        if(name != "Skeleton_Rogue"){
+            walkAnim = Random.Range(0,3);
+            runAnim = Random.Range(0,3);
+            randomAngry();
+            animator.SetInteger("WalkingAnim", walkAnim);
+            animator.SetInteger("RunningAnim", runAnim);
+        }
         moveSpeed = 4f;
     }
 
