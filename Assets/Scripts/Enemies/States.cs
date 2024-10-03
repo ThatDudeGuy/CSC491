@@ -8,6 +8,7 @@ public class States : MonoBehaviour
     public LockOn lockOn_system;
     public Rigidbody rb;
     public CapsuleCollider bodyHitBox;
+    public Ai_Navigation ai_Navigation;
     public int walkAnim, runAnim;
     public float moveSpeed;
     
@@ -20,6 +21,7 @@ public class States : MonoBehaviour
         deathSwitch = animator.GetBool("isDead?");
         rb = GetComponent<Rigidbody>();
         bodyHitBox = GetComponent<CapsuleCollider>();
+        ai_Navigation = GetComponent<Ai_Navigation>();
         walkAnim = Random.Range(0,3);
         runAnim = Random.Range(0,3);
         randomAngry();
@@ -38,6 +40,14 @@ public class States : MonoBehaviour
     public void damageEnemy(int damageValue){
         health -= damageValue;
         if(health <= 0){
+            ai_Navigation.patrolling = false;
+            ai_Navigation.agent.isStopped = true;
+            for (int i = 0; i < animator.parameterCount; i++){
+                AnimatorControllerParameter parameter = animator.GetParameter(i);
+                if (parameter.type == AnimatorControllerParameterType.Bool){
+                    animator.SetBool(parameter.name, false);
+                }
+            }
             animator.SetBool("isDead?", true);
             animator.SetInteger("DeathAnim", Random.Range(0,3));
             lockOn_system.enemies.Remove(gameObject);

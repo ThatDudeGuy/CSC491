@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +15,7 @@ public class LockOn : MonoBehaviour
     public Camera_Movement mainCamera;
 
     // Below variables are set in the inspector
+    public Eye_Sight eye_Sight;
     public Sprite[] lockImages; 
     public Image ui_lock;
 
@@ -67,9 +67,6 @@ public class LockOn : MonoBehaviour
 
             if(lock_on_state){ 
                 getClosestTarget();
-                mainCamera.lockedOn = true;
-                // player
-                ui_lock.sprite = lockImages[1];
             }
             else{
                 Destroy(arrow);
@@ -100,6 +97,12 @@ public class LockOn : MonoBehaviour
             mainCamera.lockedOn = false;
             ui_lock.sprite = lockImages[0];
         }
+        else{
+            // lock the camera
+            mainCamera.lockedOn = true;
+            // change the sprite to the locked image
+            ui_lock.sprite = lockImages[1];
+        }
         foreach(var enemy in enemies) {
             Vector3 closestTarget = enemy.transform.position - transform.position;
             if(shortestPath > Math.Sqrt(Math.Pow(closestTarget.x, 2) + Math.Pow(closestTarget.z, 2)) || shortestPath == 0f){
@@ -108,7 +111,12 @@ public class LockOn : MonoBehaviour
                 enemyDirection = enemy.transform.position - transform.position;
             }
         }
-        //set it back to 0 to reset
+        if(enemies.Count > 0 && eye_Sight.checkForWall(transform.position, closestEnemy.transform.position)){
+            lock_on_state = false;
+            shortestPath = 0;
+            return;
+        }
+        // set it back to 0 to reset
         shortestPath = 0;
         // this spawns an arrow above the head of the closest enemy
         if(enemies.Count != 0){
