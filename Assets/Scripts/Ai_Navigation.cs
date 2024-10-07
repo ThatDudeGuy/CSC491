@@ -70,7 +70,7 @@ public class Ai_Navigation : MonoBehaviour
         if(!animator.GetBool("isDead?")){
             agent.destination = player.position;
             agent.stoppingDistance = 2f;
-            transform.LookAt(player.position);
+            transform.LookAt(new Vector3(player.position.x, 0f, player.position.z));
             if(agent.remainingDistance <= agent.stoppingDistance){
                 // rb.isKinematic = false;
                 agent.isStopped = true;
@@ -85,7 +85,7 @@ public class Ai_Navigation : MonoBehaviour
                 animator.SetBool("Attack", false);
                 animator.SetBool("isWalking", true);
                 animator.SetBool("isRunning", true);
-                agent.speed = 8.5f;
+                agent.speed = 7.5f;
             }
             // else {
             //     // rb.isKinematic = true;

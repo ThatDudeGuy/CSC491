@@ -69,6 +69,7 @@ public class Player_Movement : MonoBehaviour
             }
             if(Input.GetKey(KeyCode.S)){
                 movementDirection += -mainCamera.transform.forward;
+                if(lockOn.lock_on_state) setMoveSpeed(2.5f);
             }
             if(Input.GetKey(KeyCode.D)){
                 movementDirection += mainCamera.transform.right;

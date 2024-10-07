@@ -589,25 +589,25 @@ PrefabInstance:
       addedObject: {fileID: 1999652447199011693}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1075368958849968935}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5504501954753935650}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8313238264466743736}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1075368958849968935}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4405691530434252105}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6893637642024996026}
+      addedObject: {fileID: 5264300794186257577}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6006061085261926107}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5264300794186257577}
+      addedObject: {fileID: 6893637642024996026}
   m_SourcePrefab: {fileID: 100100000, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
 --- !u!4 &323965202207306089 stripped
 Transform:
@@ -646,31 +646,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &1075368958849968935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095821727278509011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3449e238ea2fe77468e4231daf78a47a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  out_of_range: 0
-  deathSwitch: 0
-  angry: 0
-  health: 0
-  animator: {fileID: 8313238264466743736}
-  lockOn_system: {fileID: 0}
-  rb: {fileID: 0}
-  bodyHitBox: {fileID: 0}
-  ai_Navigation: {fileID: 0}
-  walkAnim: 0
-  runAnim: 0
-  nextAttackTime: 0
-  attackInterval: 1.5
 --- !u!136 &5504501954753935650
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -715,6 +690,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1075368958849968935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095821727278509011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3449e238ea2fe77468e4231daf78a47a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  out_of_range: 0
+  deathSwitch: 0
+  angry: 0
+  health: 0
+  animator: {fileID: 8313238264466743736}
+  lockOn_system: {fileID: 0}
+  rb: {fileID: 0}
+  bodyHitBox: {fileID: 0}
+  ai_Navigation: {fileID: 0}
+  walkAnim: 0
+  runAnim: 0
+  nextAttackTime: 0
+  attackInterval: 1.5
 --- !u!114 &4405691530434252105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,28 +728,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
---- !u!195 &6893637642024996026
-NavMeshAgent:
+--- !u!114 &5264300794186257577
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095821727278509011}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 50
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 2
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8a9608750a1554bbf55ceb64c4947e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eye_ray_cast: {fileID: 1051949140479424845}
+  player: {fileID: 0}
+  enemy: {fileID: 1095821727278509011}
+  ai_Navigation: {fileID: 0}
+  sightRange: {fileID: 5971527959936184841}
 --- !u!114 &6006061085261926107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,23 +769,28 @@ MonoBehaviour:
   playerFound: 0
   patrolling: 0
   counter: 0
---- !u!114 &5264300794186257577
-MonoBehaviour:
+--- !u!195 &6893637642024996026
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095821727278509011}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb8a9608750a1554bbf55ceb64c4947e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eye_ray_cast: {fileID: 1051949140479424845}
-  player: {fileID: 0}
-  enemy: {fileID: 1095821727278509011}
-  ai_Navigation: {fileID: 0}
-  sightRange: {fileID: 5971527959936184841}
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 50
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!4 &1600094272673407724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7655872403321392018, guid: addd93f8329567d4695a12b5076a77b6, type: 3}

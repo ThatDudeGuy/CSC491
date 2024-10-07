@@ -11,6 +11,7 @@ public class States : MonoBehaviour
     public Ai_Navigation ai_Navigation;
     public int walkAnim, runAnim;
     public float nextAttackTime = 0f, attackInterval = 1.5f;
+    public GameObject sightRange;
     
     void Start()
     {
@@ -51,6 +52,7 @@ public class States : MonoBehaviour
             }
             animator.SetBool("isDead?", true);
             animator.SetInteger("DeathAnim", Random.Range(0,3));
+            Destroy(sightRange);
             lockOn_system.enemies.Remove(gameObject);
             if(lockOn_system.lock_on_state){
                 lockOn_system.getClosestTarget();

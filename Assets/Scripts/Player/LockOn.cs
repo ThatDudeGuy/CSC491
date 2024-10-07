@@ -13,6 +13,8 @@ public class LockOn : MonoBehaviour
     public double shortestPath = 0;
     public Vector3 enemyDirection = new(0,0,0), rotateTo, movement, camera_Y_vector;
     public Camera_Movement mainCamera;
+    float nextRaycastTime = 0f;
+    float raycastInterval = 0.5f;
 
     // Below variables are set in the inspector
     public Eye_Sight eye_Sight;
@@ -83,6 +85,15 @@ public class LockOn : MonoBehaviour
 
     private void FixedUpdate() {
         if(lock_on_state){
+            if (Time.time >= nextRaycastTime){
+                if(eye_Sight.checkForWall(transform.position, closestEnemy.transform.position)){ 
+                    lock_on_state = false;
+                    mainCamera.lockedOn = false;
+                    ui_lock.sprite = lockImages[0];
+                    if(arrow) Destroy(arrow);
+                }
+                nextRaycastTime = Time.time + raycastInterval;
+            }
             // Order matters. Subtract the player position from the enemy position to get the correct vector
             // The Player_Movement script references this variable to update the player's rotation
             enemyDirection = closestEnemy.transform.position - transform.position;
@@ -97,12 +108,6 @@ public class LockOn : MonoBehaviour
             mainCamera.lockedOn = false;
             ui_lock.sprite = lockImages[0];
         }
-        else{
-            // lock the camera
-            mainCamera.lockedOn = true;
-            // change the sprite to the locked image
-            ui_lock.sprite = lockImages[1];
-        }
         foreach(var enemy in enemies) {
             Vector3 closestTarget = enemy.transform.position - transform.position;
             if(shortestPath > Math.Sqrt(Math.Pow(closestTarget.x, 2) + Math.Pow(closestTarget.z, 2)) || shortestPath == 0f){
@@ -115,6 +120,12 @@ public class LockOn : MonoBehaviour
             lock_on_state = false;
             shortestPath = 0;
             return;
+        }
+        else if(enemies.Count > 0){
+            // lock the camera
+            mainCamera.lockedOn = true;
+            // change the sprite to the locked image
+            ui_lock.sprite = lockImages[1];
         }
         // set it back to 0 to reset
         shortestPath = 0;

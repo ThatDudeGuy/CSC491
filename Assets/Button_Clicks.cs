@@ -7,6 +7,14 @@ public class Button_Clicks : MonoBehaviour
     public void click_inventory(){
         
     }
+
+    public void click_resume(){
+        
+    }
+
+    public void click_quit(){
+        
+    }
     // Start is called before the first frame update
     // void Start()
     // {

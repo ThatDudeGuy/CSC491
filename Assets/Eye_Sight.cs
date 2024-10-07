@@ -7,9 +7,6 @@ public class Eye_Sight : MonoBehaviour
     float nextRaycastTime = 0f;
     float raycastInterval = 0.2f;
 
-    // Below is set in the inspector
-    public GameObject sightRange;
-
     private void Start() {
         ai_Navigation = enemy.GetComponent<Ai_Navigation>();
     }
@@ -20,7 +17,6 @@ public class Eye_Sight : MonoBehaviour
                 checkForWall(enemy.transform.position, player.transform.position);
                 nextRaycastTime = Time.time + raycastInterval;
             }
-            if(ai_Navigation.animator.GetBool("isDead?")) Destroy(sightRange);
         }
     }
 
