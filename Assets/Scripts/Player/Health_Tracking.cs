@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,19 +23,24 @@ public class Health_Tracking : MonoBehaviour
     }
 
     public void LoadGame(){
-        string path = Application.persistentDataPath +"/SaveData/saveFile.json";
-        if (System.IO.File.Exists(path))
-        {
-            string jsonData = System.IO.File.ReadAllText(path);
-            JsonUtility.FromJsonOverwrite(jsonData, this);
-            print("Loading game = "+jsonData);
-            // GameData data = JsonUtility.FromJson<GameData>(json);
+        try{
+            string path = Application.persistentDataPath +"/SaveData/saveFile.json";
+            if (System.IO.File.Exists(path))
+            {
+                string jsonData = System.IO.File.ReadAllText(path);
+                JsonUtility.FromJsonOverwrite(jsonData, this);
+                print("Loading game = "+jsonData);
+                // GameData data = JsonUtility.FromJson<GameData>(json);
 
-            // Debug.Log("Player Level: " + data.playerLevel);
+                // Debug.Log("Player Level: " + data.playerLevel);
+            }
+            else
+            {
+                Debug.Log("Save file not found!");
+            }
         }
-        else
-        {
-            Debug.Log("Save file not found!");
+        catch(Exception e) {
+            print("Save File Corruption: "+e);
         }
     }
 

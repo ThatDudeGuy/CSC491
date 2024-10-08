@@ -3,13 +3,12 @@ using UnityEngine;
 public class States : MonoBehaviour
 {
     public bool out_of_range, deathSwitch, angry;
-    public int health;
+    public int health, walkAnim, runAnim, castCycleCount, cycleLimit = 3;
     public Animator animator;
     public LockOn lockOn_system;
     public Rigidbody rb;
     public CapsuleCollider bodyHitBox;
     public Ai_Navigation ai_Navigation;
-    public int walkAnim, runAnim;
     public float nextAttackTime = 0f, attackInterval = 1.5f;
     public GameObject sightRange;
     
@@ -30,11 +29,26 @@ public class States : MonoBehaviour
             animator.SetInteger("WalkingAnim", walkAnim);
             animator.SetInteger("RunningAnim", runAnim);
         }
+        if(name.Contains("Mage")) animator.SetTrigger("isCasting");
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.L)) animator.SetBool("Attack", true);
-        if(Input.GetKeyUp(KeyCode.L)) animator.SetBool("Attack", false);
+        if(Input.GetKeyDown(KeyCode.L)) animator.SetTrigger("isCasting");
+        // if(Input.GetKeyUp(KeyCode.L)) animator.SetBool("Attack", false);
+    }
+
+    public void castCycles(){
+        print(castCycleCount);
+        if(castCycleCount >= cycleLimit) {
+            animator.SetBool("attackComplete", false);
+            castCycleCount = 0;
+            castSpell();
+        }
+        castCycleCount += 1;
+    }
+    public void castSpell(){
+        animator.SetTrigger("castSpell");
+        animator.SetBool("attackComplete", true);
     }
 
     // The Player_Weapon script that is attached to the weapons object the player is holding
