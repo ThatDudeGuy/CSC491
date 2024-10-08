@@ -22,14 +22,15 @@ public class States : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         bodyHitBox = GetComponent<CapsuleCollider>();
         ai_Navigation = GetComponent<Ai_Navigation>();
-        if(name != "Skeleton_Rogue"){
+        if(name.Contains("Mage")) animator.SetTrigger("isCasting");
+        else if(name != "Skeleton_Rogue"){
             walkAnim = Random.Range(0,3);
             runAnim = Random.Range(0,3);
             randomAngry();
             animator.SetInteger("WalkingAnim", walkAnim);
             animator.SetInteger("RunningAnim", runAnim);
         }
-        if(name.Contains("Mage")) animator.SetTrigger("isCasting");
+        
     }
 
     private void Update() {
@@ -80,10 +81,10 @@ public class States : MonoBehaviour
     // This function will make the enemy attack, wait a second, and
     // then attack again
     public void continuousAttack(){
-        animator.SetBool("Attack", true);
+        // animator.SetBool("Attack", true);
         if (Time.time >= nextAttackTime){
             nextAttackTime = Time.time + attackInterval;
-            animator.SetBool("Attack", false);
+            animator.SetBool("Attack", true);
         }
     }
 

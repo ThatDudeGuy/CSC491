@@ -6,6 +6,7 @@ public class Ai_Navigation : MonoBehaviour
     public Transform player, endPath, startPath;
     public Animator animator;
     public States enemy;
+    public Enemy_Attack enemy_Attack;
     public NavMeshAgent agent;
     public Vector3 destination, pathPoint;
     public Rigidbody rb;
@@ -18,6 +19,7 @@ public class Ai_Navigation : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();       
         rb = GetComponent<Rigidbody>();
+        enemy_Attack = GetComponent<Enemy_Attack>();
         agent.destination = endPath.position;
         patrolling = true;
     }
@@ -77,24 +79,27 @@ public class Ai_Navigation : MonoBehaviour
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", false);
                 // animator.SetBool("Attack", true);
-                agent.speed = 3f;
+                // agent.speed = 3f;
                 enemy.continuousAttack();
             }
-            else if(agent.remainingDistance > agent.stoppingDistance){
+            else if(agent.remainingDistance > agent.stoppingDistance + 1 && !animator.GetBool("Attack")){
                 agent.isStopped = false;
+                enemy_Attack.call_damageOff();
                 animator.SetBool("Attack", false);
                 animator.SetBool("isWalking", true);
                 animator.SetBool("isRunning", true);
-                agent.speed = 7.5f;
+                agent.speed = 7f;
             }
-            // else {
-            //     // rb.isKinematic = true;
-            //     agent.isStopped = false;
-            //     animator.SetBool("Attack", false);
-            //     animator.SetBool("isRunning", false);
-            //     animator.SetBool("isWalking", true);
-            //     agent.speed = 5.25f;
-            // }
+            else {
+                if(!animator.GetBool("Attack")){
+                // rb.isKinematic = true;
+                    agent.isStopped = false;
+                    animator.SetBool("Attack", false);
+                    animator.SetBool("isRunning", false);
+                    animator.SetBool("isWalking", true);
+                    agent.speed = 5f;
+                }
+            }
         }
         else return;
     }

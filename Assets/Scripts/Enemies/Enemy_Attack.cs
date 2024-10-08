@@ -9,6 +9,9 @@ public class Enemy_Attack : MonoBehaviour
         weapon = GetComponentInChildren<Enemy_Weapon>();
     }
 
+    public void endAttack(){
+        GetComponent<Animator>().SetBool("Attack", false);
+    }
     public void call_damageOn(){
         weapon.damageOn();
     }
