@@ -9,6 +9,7 @@ public class Eye_Sight : MonoBehaviour
 
     private void Start() {
         ai_Navigation = enemy.GetComponent<Ai_Navigation>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void OnTriggerStay(Collider other) {

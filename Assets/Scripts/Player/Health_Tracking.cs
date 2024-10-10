@@ -40,7 +40,7 @@ public class Health_Tracking : MonoBehaviour
             }
         }
         catch(Exception e) {
-            print("Save File Corruption: "+e);
+            Debug.LogError("Save File Corruption: "+e);
         }
     }
 

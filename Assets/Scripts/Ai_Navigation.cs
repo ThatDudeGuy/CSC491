@@ -10,8 +10,12 @@ public class Ai_Navigation : MonoBehaviour
     public NavMeshAgent agent;
     public Vector3 destination, pathPoint;
     public Rigidbody rb;
-    public bool playerFound, patrolling;
+    public bool playerFound, patrolling, giant;
     public int counter;
+    private const int Big_Guy_Id = -1372625422;
+    public float stop_distance = 0;
+    // private NavMeshBuildSettings settings;
+    // private int[] agent_Ids;
 
     void Start()
     {
@@ -20,8 +24,15 @@ public class Ai_Navigation : MonoBehaviour
         animator = GetComponent<Animator>();       
         rb = GetComponent<Rigidbody>();
         enemy_Attack = GetComponent<Enemy_Attack>();
-        agent.destination = endPath.position;
+        startPath = GameObject.FindGameObjectWithTag("Start").transform;
+        endPath = GameObject.FindGameObjectWithTag("End").transform;
+        if(endPath) agent.destination = endPath.position;
         patrolling = true;
+        // print("ID: "+agent.agentTypeID);
+        // for (int i = 0; i < NavMesh.GetSettingsCount(); i++){
+        //     settings = NavMesh.GetSettingsByIndex(i);
+        //     print(settings);
+        // }
     }
 
     // private void OnCollisionEnter(Collision other) {
@@ -46,7 +57,9 @@ public class Ai_Navigation : MonoBehaviour
         // Patrolling gets set to false either when the enemy dies in States.cs
         // and when the player is within Eye_Sight range
         if(patrolling){ //!animator.GetBool("isDead?"
-            agent.stoppingDistance = 0;
+            // if(giant) stop_distance = 3f;
+            // else if(patrolling) stop_distance = 0;
+            agent.stoppingDistance = stop_distance;
             if(agent.remainingDistance <= agent.stoppingDistance){
                 agent.isStopped = true;
                 animator.SetBool("isWalking", false);
@@ -70,8 +83,13 @@ public class Ai_Navigation : MonoBehaviour
 
     void chasePlayer(){
         if(!animator.GetBool("isDead?")){
+            if(giant) {
+                stop_distance = 3f;
+                agent.agentTypeID = Big_Guy_Id;
+            }
+            else stop_distance = 2f;
             agent.destination = player.position;
-            agent.stoppingDistance = 2f;
+            agent.stoppingDistance = stop_distance;
             transform.LookAt(new Vector3(player.position.x, 0f, player.position.z));
             if(agent.remainingDistance <= agent.stoppingDistance){
                 // rb.isKinematic = false;

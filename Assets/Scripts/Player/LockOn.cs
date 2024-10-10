@@ -35,6 +35,7 @@ public class LockOn : MonoBehaviour
         if(other.CompareTag("Skeleton") && !other.GetComponent<States>().animator.GetBool("isDead?")){
             if(other.GetComponent<States>().out_of_range){
                 enemies.Add(other.gameObject);
+                closestEnemy = other.gameObject;
                 print(enemies.Count);
                 other.GetComponent<States>().out_of_range = false;
             }
@@ -80,12 +81,13 @@ public class LockOn : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F) && lock_on_state){
             getClosestTarget();
         }
-        if(arrow) arrow.transform.position = new Vector3(closestEnemy.transform.position.x, closestEnemy.transform.localPosition.y + 3.5f, closestEnemy.transform.position.z);
+        if(arrow && closestEnemy.GetComponent<States>().angry) arrow.transform.position = new Vector3(closestEnemy.transform.position.x, closestEnemy.transform.localPosition.y + 5.5f, closestEnemy.transform.position.z);
+        else if(arrow) arrow.transform.position = new Vector3(closestEnemy.transform.position.x, closestEnemy.transform.localPosition.y + 3.5f, closestEnemy.transform.position.z);
     }
 
     private void FixedUpdate() {
         if(lock_on_state){
-            if (Time.time >= nextRaycastTime){
+            if (Time.time >= nextRaycastTime && eye_Sight){
                 if(eye_Sight.checkForWall(transform.position, closestEnemy.transform.position)){ 
                     lock_on_state = false;
                     mainCamera.lockedOn = false;
@@ -100,10 +102,40 @@ public class LockOn : MonoBehaviour
         }
     }
 
+    // added this here to get around if eye_sight is non existent
+    public bool checkForWall(Vector3 start, Vector3 end){
+        Vector3 start_position = start;//new(enemy.transform.position.x, enemy.transform.position.y + 1, enemy.transform.position.z);
+        Vector3 end_position = end;//new(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
+
+        // Calculate the direction from one point to another
+        Vector3 directionToPoint = (end_position - start_position).normalized;
+
+        // Calculate the distance between two points
+        float distanceToPlayer = Vector3.Distance(start_position, end_position);
+        // Debug.DrawRay(new Vector3(enemy.transform.position.x, enemy.transform.position.y + 1, enemy.transform.position.z), directionToPoint * distanceToPlayer, Color.red);
+        // Shoot a ray at a point
+        if (Physics.Raycast(start_position, directionToPoint, out RaycastHit hitInfo, distanceToPlayer)) {            
+            // Check if the raycast hit a wall
+            print(hitInfo.collider.gameObject);
+            if (hitInfo.collider.CompareTag("Wall")) {
+                Debug.Log("There is a wall in front of the enemy blocking the path to the player.");
+                return true;
+            }
+            else{
+                Debug.Log("No wall in front of player.");
+                // if(start == transform.position) ai_Navigation.playerFound = true;
+                // ai_Navigation.agent.angularSpeed = 360;
+                return false;
+            }
+        }
+
+        return false;
+    }
     // Use this function when an enemy dies to re-target the next enemy
     public void getClosestTarget(){
         if(arrow) Destroy(arrow);
         if(enemies.Count == 0){
+            print("No more enemies");
             lock_on_state = false;
             mainCamera.lockedOn = false;
             ui_lock.sprite = lockImages[0];
@@ -116,22 +148,28 @@ public class LockOn : MonoBehaviour
                 enemyDirection = enemy.transform.position - transform.position;
             }
         }
-        if(enemies.Count > 0 && eye_Sight.checkForWall(transform.position, closestEnemy.transform.position)){
-            lock_on_state = false;
-            shortestPath = 0;
-            return;
-        }
-        else if(enemies.Count > 0){
-            // lock the camera
-            mainCamera.lockedOn = true;
-            // change the sprite to the locked image
-            ui_lock.sprite = lockImages[1];
-        }
+        // if(eye_Sight){
+            if(enemies.Count > 0 && checkForWall(transform.position, closestEnemy.transform.position)){
+                print("Wall found");
+                lock_on_state = false;
+                mainCamera.lockedOn = false;
+                ui_lock.sprite = lockImages[0];
+                shortestPath = 0;
+                return;
+            }
+            else if(enemies.Count > 0){
+                print("Enemies found");
+                // lock the camera
+                mainCamera.lockedOn = true;
+                // change the sprite to the locked image
+                ui_lock.sprite = lockImages[1];
+            }
+        // }
         // set it back to 0 to reset
         shortestPath = 0;
         // this spawns an arrow above the head of the closest enemy
         if(enemies.Count != 0){
-            arrow = Instantiate(arrowSpawn, new Vector3(closestEnemy.transform.localPosition.x,closestEnemy.transform.localPosition.y + 3.5f ,closestEnemy.transform.localPosition.z), Quaternion.identity);
+            arrow = Instantiate(arrowSpawn, closestEnemy.transform.localPosition, Quaternion.identity);
         }
     }
 }
