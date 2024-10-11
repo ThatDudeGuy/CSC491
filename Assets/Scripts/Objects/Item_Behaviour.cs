@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Item_Behaviour : MonoBehaviour
@@ -6,6 +5,7 @@ public class Item_Behaviour : MonoBehaviour
     public int healthRegen;
     public Health_Tracking playerHealth;
     public CapsuleCollider playerCapsuleCollider;
+    public bool isPickedUp;
     private string[] tokens;
 
     void Start()
@@ -24,6 +24,7 @@ public class Item_Behaviour : MonoBehaviour
     private void OnTriggerStay(Collider other) {
         if(other.CompareTag("Player") && other == playerCapsuleCollider && Input.GetKeyDown(KeyCode.E)){
             if(tokens[0] == "health"){
+                isPickedUp = true;
                 Destroy(gameObject); 
                 playerHealth.regenHealth(healthRegen);
             }
