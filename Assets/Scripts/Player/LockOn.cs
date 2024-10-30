@@ -32,8 +32,8 @@ public class LockOn : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         // This function runs or is "triggered" continuously whenever an enemy stays within the sphere collider attached to the character
         // for more than 1 second I believe
-        if(other.CompareTag("Skeleton") && !other.GetComponent<States>().animator.GetBool("isDead?")){
-            if(other.GetComponent<States>().out_of_range){
+        if(other.CompareTag("Skeleton")){
+            if(!other.GetComponent<States>().animator.GetBool("isDead?") && other.GetComponent<States>().out_of_range){
                 enemies.Add(other.gameObject);
                 closestEnemy = other.gameObject;
                 print(enemies.Count);
@@ -46,16 +46,17 @@ public class LockOn : MonoBehaviour
 
     private void OnTriggerExit(Collider other) {
         // This function triggers whenever an enemy leaves the sphere collider
-        if(other.CompareTag("Skeleton") && !other.GetComponent<States>().animator.GetBool("isDead?")){
-            enemies.Remove(other.gameObject);
-            other.GetComponent<States>().out_of_range = true;
-            print(enemies.Count);
-            if(enemies.Count == 0){
-                print("Exiting Lock ON");
-                lock_on_state = false;
-                Destroy(arrow);
-                mainCamera.lockedOn = false;
-                ui_lock.sprite = lockImages[0];
+        if(other.CompareTag("Skeleton")){
+            if(!other.GetComponent<States>().animator.GetBool("isDead?"))
+                enemies.Remove(other.gameObject);
+                other.GetComponent<States>().out_of_range = true;
+                print(enemies.Count);
+                if(enemies.Count == 0){
+                    print("Exiting Lock ON");
+                    lock_on_state = false;
+                    Destroy(arrow);
+                    mainCamera.lockedOn = false;
+                    ui_lock.sprite = lockImages[0];
             }
         }
         else return;

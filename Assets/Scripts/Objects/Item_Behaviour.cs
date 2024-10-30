@@ -25,7 +25,9 @@ public class Item_Behaviour : MonoBehaviour
         if(other.CompareTag("Player") && other == playerCapsuleCollider && Input.GetKeyDown(KeyCode.E)){
             if(tokens[0] == "health"){
                 isPickedUp = true;
-                Destroy(gameObject); 
+                // use isActive = false instead of Destroy()
+                gameObject.SetActive(false);
+                // Destroy(gameObject); 
                 playerHealth.regenHealth(healthRegen);
             }
         }

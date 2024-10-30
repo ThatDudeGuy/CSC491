@@ -112,21 +112,21 @@ public class SaveData : MonoBehaviour
     // private static string directory = Application.persistentDataPath + "/SaveData";
     // private static string filePath = directory + "/SaveFile00";
 
-    void Start()
-    {
-        LoadGame();
-    }
+    // void Start()
+    // {
+    //     LoadGame();
+    // }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.RightShift)){ 
-            gameData.collectEnemyData(GameObject.FindGameObjectsWithTag("Skeleton"));
-            gameData.collectPlayerData(GameObject.FindGameObjectWithTag("Player"));
-            gameData.collectItemData();
-            SaveGame();
-        }
-        // if(Input.GetKeyDown(KeyCode.O)) foreach(var obj in gameData.itemData) print("item data index = "+obj); 
-    }
+    // void Update()
+    // {
+    //     if(Input.GetKeyDown(KeyCode.RightShift)){ 
+    //         gameData.collectEnemyData(GameObject.FindGameObjectsWithTag("Skeleton"));
+    //         gameData.collectPlayerData(GameObject.FindGameObjectWithTag("Player"));
+    //         gameData.collectItemData();
+    //         SaveGame();
+    //     }
+    //     // if(Input.GetKeyDown(KeyCode.O)) foreach(var obj in gameData.itemData) print("item data index = "+obj); 
+    // }
 
     public void SaveGame(){
         string directory = Application.persistentDataPath + "/SaveData";
