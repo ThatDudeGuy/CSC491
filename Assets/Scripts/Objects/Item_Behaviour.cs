@@ -6,6 +6,7 @@ public class Item_Behaviour : MonoBehaviour
     public Health_Tracking playerHealth;
     public CapsuleCollider playerCapsuleCollider;
     public bool isPickedUp;
+    public Inventory inventory;
     private string[] tokens;
 
     void Start()
@@ -18,11 +19,13 @@ public class Item_Behaviour : MonoBehaviour
         // tag = "hello";
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health_Tracking>();
         playerCapsuleCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>();
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
 
     private void OnTriggerStay(Collider other) {
         if(other.CompareTag("Player") && other == playerCapsuleCollider && Input.GetKeyDown(KeyCode.E)){
+            inventory.Items.Add(gameObject);
             if(tokens[0] == "health"){
                 isPickedUp = true;
                 // use isActive = false instead of Destroy()

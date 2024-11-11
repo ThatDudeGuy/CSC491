@@ -1366,6 +1366,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1396058439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2001350049802426065, guid: e203e3e53a127f14da7f21dd4e24f8de, type: 3}
+  m_PrefabInstance: {fileID: 8483207433171876427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1396058448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396058439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f597a4c1b374a3d49ae603d78022c407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Items: []
 --- !u!1001 &1433585664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1417,6 +1435,10 @@ PrefabInstance:
     - target: {fileID: 1095821727278509011, guid: 7a1dc6236b0863f419c13b894a5286d9, type: 3}
       propertyPath: m_Name
       value: Skeleton_Warrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 1095821727278509011, guid: 7a1dc6236b0863f419c13b894a5286d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1928,7 +1950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 379400332100395535, guid: dad4a35781e41f54b877a417aa739b37, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 379400332100395535, guid: dad4a35781e41f54b877a417aa739b37, type: 3}
       propertyPath: m_TagString
@@ -3366,7 +3388,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2001350049802426065, guid: e203e3e53a127f14da7f21dd4e24f8de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1396058448}
   m_SourcePrefab: {fileID: 100100000, guid: e203e3e53a127f14da7f21dd4e24f8de, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

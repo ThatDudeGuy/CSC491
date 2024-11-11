@@ -18,6 +18,7 @@ TagManager:
   - Start
   - End
   - CrossBow
+  - PauseIcons
   layers:
   - Default
   - TransparentFX

@@ -4,13 +4,15 @@ public class Player_Movement : MonoBehaviour
 {
     public LockOn lockOn;
     public Rigidbody rb;
-    public GameObject cameraPoint, mainCamera, stepRayLower, stepRayUpper;
+    public GameObject cameraPoint, mainCamera, stepRayLower, stepRayUpper, GameCanvas;
+    private RectTransform[] canvasIcons;
     public Animator animator;
     public float cameraRotation, moveSpeed = 5f, stepHeight = 0.65f, stepSmooth = 10f, lockOn_rotation_speed = 3.5f;
     int direction_to_face;
     Vector3 rotateTo, movement, player_Y_vector;
-    public bool isJumping, canMove = true;
+    public bool isJumping, canMove = true, pause;
     public Ground_Check ground_Check;
+    bool pausing;
     // public CharacterController controller;
 
     void Start()
@@ -27,6 +29,8 @@ public class Player_Movement : MonoBehaviour
         stepHeight = 0.65f;
         stepSmooth = 10f;
         ground_Check = GetComponent<Ground_Check>();
+        GameCanvas = GameObject.FindGameObjectWithTag("Canvas");
+        canvasIcons = GameCanvas.GetComponentsInChildren<RectTransform>();
         // stepRayUpper.transform.position = new Vector3(0f, stepHeight, 0.6f);
         // controller = GetComponent<CharacterController>();
     }
@@ -37,8 +41,32 @@ public class Player_Movement : MonoBehaviour
     // }
 
     private void Update() {
+
         if(Input.GetKeyDown(KeyCode.Space)){
             isJumping = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.P)){
+            pausing = !pausing;
+            if(pausing) Time.timeScale = 0f;
+            else Time.timeScale = 1f;
+        }
+
+        if(Input.GetKeyDown(KeyCode.P)){
+            if(!pause){
+                foreach(RectTransform obj in canvasIcons) {
+                    if(obj.gameObject.CompareTag("PauseIcons")) obj.gameObject.SetActive(true);
+                    else obj.gameObject.SetActive(false);
+                }
+            }
+            else{
+                foreach(RectTransform obj in canvasIcons) {
+                    if(obj.gameObject.CompareTag("PauseIcons")) obj.gameObject.SetActive(false);
+                    else obj.gameObject.SetActive(true);
+                }
+            }
+            
+            pause = !pause;
         }
 
         handlePlayerInput();
