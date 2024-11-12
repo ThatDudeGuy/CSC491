@@ -61,6 +61,10 @@ public class States : MonoBehaviour
 
                 }
             }
+            try{
+                GetComponent<Enemy_Rogue_Attack>().targetPlayer = false;
+            }
+            catch{}
             animator.SetBool("isDead?", true); 
             animator.SetInteger("DeathAnim", Random.Range(0,3));
             if(sightRange) Destroy(sightRange);
