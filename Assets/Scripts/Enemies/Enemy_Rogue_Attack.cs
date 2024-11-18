@@ -26,7 +26,7 @@ public class Enemy_Rogue_Attack : MonoBehaviour
     // Referenced as animation events
     public void ShootArrow(){
         animator.SetTrigger("Shoot");
-        GameObject copy = Instantiate(arrow, crossbow.transform.position, transform.rotation);
+        GameObject copy = Instantiate(arrow, crossbow.transform.position, crossbow.transform.rotation);
         copy.GetComponent<Rigidbody>().AddRelativeForce(0,0,arrowSpeed);
     }
 
