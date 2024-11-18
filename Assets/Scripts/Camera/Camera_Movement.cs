@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Camera_Movement : MonoBehaviour
@@ -24,6 +25,7 @@ public class Camera_Movement : MonoBehaviour
     private void FixedUpdate() {
         // need to fix when unlocking from enemy, resetting camera rotation to the
         turn.x += Input.GetAxis("Mouse X") * x_sensitivity;
+        turn.y = Mathf.Clamp(turn.y, -25f, 25f);
         turn.y += Input.GetAxis("Mouse Y") * y_sensitivity;
         if(!lockedOn) point.transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0);
     }

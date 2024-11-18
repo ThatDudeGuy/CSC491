@@ -1,35 +1,40 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Rogue_Attack : MonoBehaviour
 {
-    public GameObject arrow, crossbow;
+    public GameObject arrow, crossbow, player;
     public Animator animator;
     public float arrowSpeed;
+    public bool player_found;
     // Start is called before the first frame update
     void Start()
     {
         crossbow = GameObject.FindGameObjectWithTag("CrossBow");
-        animator.SetBool("inRange", true);
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // public void endAttack(){
-    //     GetComponent<Animator>().SetBool("Attack", false);
-    // }
-    // public void call_damageOn(){
-    //     weapon.damageOn();
-    // }
-    // public void call_damageOff(){
-    //     weapon.damageOff();
-    // }
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.O)){
+            animator.SetBool("inRange", !animator.GetBool("inRange"));
+        }
+
+        if(animator.GetBool("inRange") && !animator.GetBool("isDead?")) transform.LookAt(player.transform.position);
+
+    }
 
     // Referenced as animation events
     public void ShootArrow(){
         animator.SetTrigger("Shoot");
-        GameObject copy = Instantiate(arrow, crossbow.transform.position, Quaternion.identity);
+        GameObject copy = Instantiate(arrow, crossbow.transform.position, transform.rotation);
         copy.GetComponent<Rigidbody>().AddRelativeForce(0,0,arrowSpeed);
     }
 
     public void ReloadAnim(){
         animator.SetTrigger("Reload");
+    }
+
+    public void RestartAnim(){
+        animator.SetTrigger("Shoot");
     }
 }

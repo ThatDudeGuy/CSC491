@@ -61,6 +61,7 @@ public class States : MonoBehaviour
 
                 }
             }
+            if(gameObject.name.Contains("Rogue")) animator.SetBool("inRange", true);
             animator.SetBool("isDead?", true); 
             animator.SetInteger("DeathAnim", Random.Range(0,3));
             if(sightRange) Destroy(sightRange);
