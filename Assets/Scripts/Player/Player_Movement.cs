@@ -40,33 +40,14 @@ public class Player_Movement : MonoBehaviour
     // print(new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z));
     // }
 
+    private void OnEnable() {
+        canMove = true;
+    }
+
     private void Update() {
 
         if(Input.GetKeyDown(KeyCode.Space)){
             isJumping = true;
-        }
-
-        if(Input.GetKeyDown(KeyCode.P)){
-            pausing = !pausing;
-            if(pausing) Time.timeScale = 0f;
-            else Time.timeScale = 1f;
-        }
-
-        if(Input.GetKeyDown(KeyCode.P)){
-            if(!pause){
-                foreach(RectTransform obj in canvasIcons) {
-                    if(obj.gameObject.CompareTag("PauseIcons")) obj.gameObject.SetActive(true);
-                    else obj.gameObject.SetActive(false);
-                }
-            }
-            else{
-                foreach(RectTransform obj in canvasIcons) {
-                    if(obj.gameObject.CompareTag("PauseIcons")) obj.gameObject.SetActive(false);
-                    else obj.gameObject.SetActive(true);
-                }
-            }
-            
-            pause = !pause;
         }
 
         handlePlayerInput();

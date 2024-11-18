@@ -16,6 +16,9 @@ public class Attack_System : MonoBehaviour
 
     void Update()
     {
+        if(Time.timeScale == 0){ 
+            canContinue = true;
+        }
         
         if(canContinue && Input.GetMouseButton(1)){
             // print("Mouse Right");
