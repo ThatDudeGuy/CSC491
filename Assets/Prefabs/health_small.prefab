@@ -16,13 +16,37 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -1882728319063068136, guid: 76c5e50b55773f943a46330beb8b7fc4, type: 3}
+    - target: {fileID: 3917720576487142174, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: gameCanvas
+      value: 
+      objectReference: {fileID: 833280797076079347, guid: a6207b5946eb46c48b7df47d1106087f, type: 3}
+    - target: {fileID: 3917720576487142174, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: menuManager
+      value: 
+      objectReference: {fileID: 4981787216047826495, guid: 33d6b8cb07f86594992e8c95e72b9d5a, type: 3}
     - target: {fileID: 4099210148603653170, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_Center.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5182721822552019991, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: m_Height
+      value: 0.87587565
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182721822552019991, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: m_Radius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182721822552019991, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: m_Center.y
+      value: 0.43793783
+      objectReference: {fileID: 0}
     - target: {fileID: 6612168623558217156, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_Name
       value: health_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612168623558217156, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6612168623558217156, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_TagString
@@ -30,15 +54,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6875840438402154870, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.191462
+      value: 1.92
       objectReference: {fileID: 0}
     - target: {fileID: 6875840438402154870, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.9129516
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875840438402154870, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.574444
+      value: 4.709762
       objectReference: {fileID: 0}
     - target: {fileID: 6875840438402154870, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
       propertyPath: m_LocalRotation.w
@@ -84,8 +108,35 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: -382652638819485698, guid: 76c5e50b55773f943a46330beb8b7fc4, type: 3}
+    - target: {fileID: 8749108859178646905, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      propertyPath: m_Drag
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6612168623558217156, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 7705457818060379775}
   m_SourcePrefab: {fileID: 100100000, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+--- !u!1 &2562449575138887314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6612168623558217156, guid: 39c2bab1e72039a49932c4f815d5e651, type: 3}
+  m_PrefabInstance: {fileID: 8668446437323492182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7705457818060379775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562449575138887314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48f8c94c71981b241b97febcafbd14c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item_name: Health Potion (small)
+  item_image: {fileID: 21300000, guid: 62a2f7de3dc331948a4683d2579f806c, type: 3}
+  amount: 1

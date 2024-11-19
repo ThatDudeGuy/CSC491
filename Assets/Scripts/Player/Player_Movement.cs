@@ -12,8 +12,6 @@ public class Player_Movement : MonoBehaviour
     Vector3 rotateTo, movement, player_Y_vector;
     public bool isJumping, canMove = true, pause;
     public Ground_Check ground_Check;
-    bool pausing;
-    // public CharacterController controller;
 
     void Start()
     {

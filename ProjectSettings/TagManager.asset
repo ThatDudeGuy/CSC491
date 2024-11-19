@@ -19,6 +19,7 @@ TagManager:
   - End
   - CrossBow
   - PauseIcons
+  - Slot
   layers:
   - Default
   - TransparentFX

@@ -9,16 +9,6 @@ enum Item_Type
 public class Item_Stats : MonoBehaviour
 {
     public string item_name;
-    public Image item_image;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Sprite item_image;
+    public int amount = 1;
 }

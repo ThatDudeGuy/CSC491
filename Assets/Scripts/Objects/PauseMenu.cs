@@ -9,11 +9,13 @@ public class PauseMenu : MonoBehaviour
 
 
     public GameObject pauseMenuUI, gameCanvas, player;
+    public GameObject interact;
     private bool isPaused = false;
 
 
     void Start(){
-       // rb = GetComponent<Rigidbody>();
+        interact = interact.transform.Find("Interact").gameObject;
+        interact.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         pauseMenuUI.SetActive(false); // pause menu is hidden at the start
 
@@ -50,16 +52,20 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         player.GetComponent<Player_Movement>().enabled = true;
+        player.GetComponent<Player_Movement>().canMove = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f; // Resume game time
         pauseMenuUI.SetActive(false);
         gameCanvas.SetActive(true);
         isPaused = false;
+        player.GetComponent<Player_Movement>().pause = false;
     }
 
     public void Pause()
     {
+        player.GetComponent<Player_Movement>().pause = true;
         player.GetComponent<Player_Movement>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
