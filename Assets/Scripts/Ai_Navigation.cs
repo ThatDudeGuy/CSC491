@@ -13,7 +13,7 @@ public class Ai_Navigation : MonoBehaviour
     public bool playerFound, patrolling, giant;
     public int counter;
     private const int Big_Guy_Id = -1372625422;
-    public float stop_distance = 0;
+    public float stop_distance = 0.1f;
     // private NavMeshBuildSettings settings;
     // private int[] agent_Ids;
 
@@ -24,8 +24,9 @@ public class Ai_Navigation : MonoBehaviour
         animator = GetComponent<Animator>();       
         rb = GetComponent<Rigidbody>();
         enemy_Attack = GetComponent<Enemy_Attack>();
-        startPath = GameObject.FindGameObjectWithTag("Start").transform;
-        endPath = GameObject.FindGameObjectWithTag("End").transform;
+        stop_distance = 0.1f;
+        // startPath = GameObject.FindGameObjectWithTag("Start").transform;
+        // endPath = GameObject.FindGameObjectWithTag("End").transform;
         if(endPath) agent.destination = endPath.position;
         patrolling = true;
         // print("ID: "+agent.agentTypeID);
@@ -72,7 +73,8 @@ public class Ai_Navigation : MonoBehaviour
                 
             }
             else{
-                animator.SetBool("Attack", false);
+                if(gameObject.name.Contains("Mage")) animator.SetBool("isCasting", false);
+                else animator.SetBool("Attack", false);
                 animator.SetBool("isRunning", false);
                 animator.SetBool("isWalking", true);
                 agent.speed = 3f;

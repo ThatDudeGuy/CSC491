@@ -33,4 +33,8 @@ public class Enemy_Weapon : MonoBehaviour
         canDamagePlayer = false;
     }
 
+    public void SetDamageMultiplier(){
+        damageValue = 15;
+    }
+
 }

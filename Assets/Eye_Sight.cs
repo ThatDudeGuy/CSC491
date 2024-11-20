@@ -19,8 +19,12 @@ public class Eye_Sight : MonoBehaviour
                 nextRaycastTime = Time.time + raycastInterval;
             }
         }
+        else return;
     }
 
+    // private void Update() {
+    //     checkForWall(Vector3.zero, Vector3.zero);
+    // }
     // private void OnTriggerExit(Collider other) {
     //     if(other.gameObject.CompareTag("Player")){
     //         print("I DON'T see you");
@@ -37,12 +41,12 @@ public class Eye_Sight : MonoBehaviour
 
         // Calculate the distance between two points
         float distanceToPlayer = Vector3.Distance(start_position, end_position);
-        // Debug.DrawRay(new Vector3(enemy.transform.position.x, enemy.transform.position.y + 1, enemy.transform.position.z), directionToPoint * distanceToPlayer, Color.red);
-        // Shoot a ray at a point
-        if (Physics.Raycast(start_position, directionToPoint, out RaycastHit hitInfo, distanceToPlayer)) {            
-            // Check if the raycast hit a wall
-            print(hitInfo.collider.gameObject);
-            if (hitInfo.collider.CompareTag("Wall")) {
+        Debug.DrawRay(start + new Vector3(0,1,0), directionToPoint * distanceToPlayer, Color.red);
+
+        RaycastHit[] hits = Physics.RaycastAll(start + new Vector3(0,1,0), directionToPoint, distanceToPlayer);
+        foreach (RaycastHit hit in hits) {
+            Debug.Log("Hit: " + hit.collider.name);
+            if (hit.collider.CompareTag("Wall")) {
                 Debug.Log("There is a wall in front of the enemy blocking the path to the player.");
                 return true;
             }
@@ -53,6 +57,23 @@ public class Eye_Sight : MonoBehaviour
                 return false;
             }
         }
+
+
+        // Shoot a ray at a point
+        // if (Physics.Raycast(start_position, directionToPoint, out RaycastHit hitInfo, distanceToPlayer)) {            
+        //     // Check if the raycast hit a wall
+        //     print(hitInfo.collider.gameObject);
+        //     if (hitInfo.collider.CompareTag("Wall")) {
+        //         Debug.Log("There is a wall in front of the enemy blocking the path to the player.");
+        //         return true;
+        //     }
+        //     else{
+        //         Debug.Log("No wall in front of player.");
+        //         if(start == transform.position) ai_Navigation.playerFound = true;
+        //         // ai_Navigation.agent.angularSpeed = 360;
+        //         return false;
+        //     }
+        // }
 
         return false;
     }

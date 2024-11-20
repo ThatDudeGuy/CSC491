@@ -38,6 +38,9 @@ public class Button_Clicks : MonoBehaviour, IPointerClickHandler//, IPointerEnte
                 player.GetComponent<Inventory>().Items.Remove(player.GetComponent<Inventory>().Items[int.Parse(gameObject.name) - 1]);
                 menuManager.GetComponent<OpenInventory>().PopulateInventory();
             }
+            else{
+                menuManager.GetComponent<OpenInventory>().PopulateInventory();
+            }
         } catch{}
     }
 }

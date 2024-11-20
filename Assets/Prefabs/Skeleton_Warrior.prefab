@@ -85,15 +85,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.85606
+      value: -19.938154
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000047683716
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.3749075
+      value: -19.909605
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -386,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_Name
       value: Skeleton_Warrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: addd93f8329567d4695a12b5076a77b6, type: 3}
       propertyPath: m_TagString
@@ -735,6 +739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  enemy_state: {fileID: 0}
 --- !u!114 &5264300794186257577
 MonoBehaviour:
   m_ObjectHideFlags: 0

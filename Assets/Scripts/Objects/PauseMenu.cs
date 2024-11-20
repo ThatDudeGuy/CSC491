@@ -31,7 +31,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(!gameObject.activeSelf) print("Goodbye");
         // Check for pause input (Escape key)
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {

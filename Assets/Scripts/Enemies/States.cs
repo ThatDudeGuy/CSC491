@@ -47,6 +47,7 @@ public class States : MonoBehaviour
     // The Player_Weapon script that is attached to the weapons object the player is holding
     // calls this function whenever the box colliders collide with an enemy
     public void damageEnemy(int damageValue){
+        ai_Navigation.playerFound = true;
         health -= damageValue;
         if(health <= 0){
             if(ai_Navigation){
