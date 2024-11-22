@@ -66,6 +66,7 @@ public class Mage_Attacks : MonoBehaviour
         movement.patrolling = true;
         // animator.SetBool("attackComplete", false);
     }
+    
 
     void keepCounter(){
         counter++;
