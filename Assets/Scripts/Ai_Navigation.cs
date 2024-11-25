@@ -10,7 +10,7 @@ public class Ai_Navigation : MonoBehaviour
     public NavMeshAgent agent;
     public Vector3 destination, pathPoint;
     public Rigidbody rb;
-    public bool playerFound, patrolling, giant;
+    public bool playerFound, patrolling, giant, movable;
     public int counter;
     private const int Big_Guy_Id = -1372625422;
     public float stop_distance = 0.1f;
@@ -44,8 +44,8 @@ public class Ai_Navigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!playerFound) patrol();
-        else chasePlayer();
+        if(!playerFound && movable) patrol();
+        else if(playerFound) chasePlayer();
 
     }
 
@@ -62,7 +62,7 @@ public class Ai_Navigation : MonoBehaviour
             // else if(patrolling) stop_distance = 0;
             agent.stoppingDistance = stop_distance;
             if(agent.remainingDistance <= agent.stoppingDistance){
-                agent.isStopped = true;
+                // agent.isStopped = true;
                 animator.SetBool("isWalking", false);
                 counter++;
                 if (counter >= Application.targetFrameRate * 1.5){

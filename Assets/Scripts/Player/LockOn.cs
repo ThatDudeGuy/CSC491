@@ -25,13 +25,10 @@ public class LockOn : MonoBehaviour
     {
         lock_on_range = GetComponent<SphereCollider>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera_Movement>();
-        // arrowSpawn = Resources.Load<GameObject>("Assets/Prefabs/ArrowSpawn.prefab");
     }
     
 
     private void OnTriggerEnter(Collider other) {
-        // This function runs or is "triggered" continuously whenever an enemy stays within the sphere collider attached to the character
-        // for more than 1 second I believe
         if(other.CompareTag("Skeleton")){
             if(!other.GetComponent<States>().animator.GetBool("isDead?") && other.GetComponent<States>().out_of_range){
                 enemies.Add(other.gameObject);

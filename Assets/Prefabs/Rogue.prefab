@@ -866,6 +866,7 @@ GameObject:
   - component: {fileID: 184802808544972836}
   - component: {fileID: 7298104859639719054}
   - component: {fileID: 5093978229627792366}
+  - component: {fileID: 1741854858502926837}
   m_Layer: 0
   m_Name: Rogue
   m_TagString: Player
@@ -984,6 +985,7 @@ MonoBehaviour:
   staminaBar: {fileID: 0}
   healthBar: {fileID: 0}
   player: {fileID: 184802808544972836}
+  gameOverScreen: {fileID: 102900000, guid: 2bec7f0a047d8a24a96267cb2b52ddc2, type: 3}
 --- !u!114 &184802808544972836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,6 +1004,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   stepRayLower: {fileID: 0}
   stepRayUpper: {fileID: 0}
+  GameCanvas: {fileID: 0}
   animator: {fileID: 5645476182255273799}
   cameraRotation: 0
   moveSpeed: 5
@@ -1010,6 +1013,7 @@ MonoBehaviour:
   lockOn_rotation_speed: 3.5
   isJumping: 0
   canMove: 1
+  pause: 0
   ground_Check: {fileID: 0}
 --- !u!114 &7298104859639719054
 MonoBehaviour:
@@ -1043,6 +1047,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 0}
   isGrounded: 0
+--- !u!114 &1741854858502926837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001350049802426065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f597a4c1b374a3d49ae603d78022c407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Items: []
 --- !u!1 &2167637644884708020
 GameObject:
   m_ObjectHideFlags: 0

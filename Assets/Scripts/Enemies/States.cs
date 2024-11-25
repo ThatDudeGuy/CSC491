@@ -23,7 +23,7 @@ public class States : MonoBehaviour
         bodyHitBox = GetComponent<CapsuleCollider>();
         ai_Navigation = GetComponent<Ai_Navigation>();
         if(name.Contains("Mage")) print("Skip");//animator.SetTrigger("isCasting");
-        else if(name != "Skeleton_Rogue"){
+        else if(!name.Contains("Rogue")){
             walkAnim = Random.Range(0,3);
             runAnim = Random.Range(0,3);
             // randomAngry();
@@ -33,8 +33,12 @@ public class States : MonoBehaviour
         
     }
 
+    private void OnDisable() {
+        print("Goodbye!");
+    }
+
     private void Awake() {
-        if(name != "Skeleton_Rogue" && !name.Contains("Mage")){
+        if(!name.Contains("Rogue") && !name.Contains("Mage")){
             animator.SetBool("Spawn", false);
         }
     }
@@ -47,7 +51,7 @@ public class States : MonoBehaviour
     // The Player_Weapon script that is attached to the weapons object the player is holding
     // calls this function whenever the box colliders collide with an enemy
     public void damageEnemy(int damageValue){
-        ai_Navigation.playerFound = true;
+        if(gameObject.name.Contains("Warrior")) ai_Navigation.playerFound = true;
         health -= damageValue;
         if(health <= 0){
             if(ai_Navigation){

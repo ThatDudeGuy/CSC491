@@ -20,6 +20,8 @@ TagManager:
   - CrossBow
   - PauseIcons
   - Slot
+  - Floor
+  - Bricks
   layers:
   - Default
   - TransparentFX

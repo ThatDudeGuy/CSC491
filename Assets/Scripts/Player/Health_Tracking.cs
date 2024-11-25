@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Health_Tracking : MonoBehaviour
@@ -8,7 +8,7 @@ public class Health_Tracking : MonoBehaviour
     public Animator animator;
     public Slider staminaBar, healthBar;
     public Player_Movement player;
-
+    public Object gameOverScreen;
 
     void Start()
     {
@@ -31,6 +31,11 @@ public class Health_Tracking : MonoBehaviour
     public void damagePlayer(int damageAmount){
         health -= damageAmount;
         healthBar.value = health;
+        if(health <= 0){
+            SceneManager.LoadScene(gameOverScreen.name);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     public void regenHealth(int regenAmount){

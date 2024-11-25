@@ -54,31 +54,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.906443
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.33
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2843494
+      value: 10.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.3206839
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.94718635
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 142.591
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffa2f1cfa61e5e4429cfd215f1ab16aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -680,7 +680,7 @@ MonoBehaviour:
   crossbow: {fileID: 0}
   player: {fileID: 0}
   animator: {fileID: 1319323211618778049}
-  arrowSpeed: 2000
+  arrowSpeed: 2869
   player_found: 0
 --- !u!114 &127475387393369078
 MonoBehaviour:
@@ -739,6 +739,7 @@ MonoBehaviour:
   playerFound: 0
   patrolling: 0
   giant: 0
+  movable: 0
   counter: 0
   stop_distance: 0
 --- !u!195 &3867778994109507984
