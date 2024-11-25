@@ -53,6 +53,7 @@ public class PauseMenu : MonoBehaviour
     {
         player.GetComponent<Player_Movement>().enabled = true;
         player.GetComponent<Player_Movement>().canMove = true;
+        player.GetComponent<Attack_System>().canContinue = true;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

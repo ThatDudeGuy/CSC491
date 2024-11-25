@@ -8,7 +8,6 @@ public class Health_Tracking : MonoBehaviour
     public Animator animator;
     public Slider staminaBar, healthBar;
     public Player_Movement player;
-    public Object gameOverScreen;
 
     void Start()
     {
@@ -32,7 +31,7 @@ public class Health_Tracking : MonoBehaviour
         health -= damageAmount;
         healthBar.value = health;
         if(health <= 0){
-            SceneManager.LoadScene(gameOverScreen.name);
+            SceneManager.LoadScene("EndScreen");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }

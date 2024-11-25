@@ -4,22 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class Start_End_Screen : MonoBehaviour
 {
-    public SceneRef Scenes;
     public void StartGame(){
-        SceneManager.LoadScene(Scenes.level_one.name);
+        SceneManager.LoadScene("Enemy_1");
     }
 
     public void OpenInfo(){
-        SceneManager.LoadScene(Scenes.infoScreen.name);
+        SceneManager.LoadScene("Info");
     }
 
     public void Restart(){
-        SceneManager.LoadScene(Scenes.start_screen.name);
+        SceneManager.LoadScene("StartScreen");
     }
 }
 
-[Serializable]
-public class SceneRef
-{
-    public UnityEngine.Object start_screen, level_one, infoScreen;
-}

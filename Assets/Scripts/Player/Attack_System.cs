@@ -5,7 +5,8 @@ public class Attack_System : MonoBehaviour
     public Animator animator;
     public Player_Movement player_Movement;
     public Player_Weapon[] weapons;
-    public int attackPhase = 0, counter = 0;
+    public int attackPhase = 0;
+    public float counter = 0;
     public bool canContinue = true;
     void Start()
     {
@@ -72,8 +73,9 @@ public class Attack_System : MonoBehaviour
     // we know that 2 seconds have elapsed, the player can no longer continue the attack chain,
     // and the the animations and chain reset
     void checkAttackChain(){
-        counter++;
-        if(counter >= Application.targetFrameRate + Application.targetFrameRate/4 && attackPhase >= 1){
+        counter += Time.deltaTime;
+        print(counter);
+        if(counter >= 1.25f && attackPhase >= 1){
             counter = 0;
             attackPhase = 0;
             // firstAttackOff();
