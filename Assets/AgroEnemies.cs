@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AgroEnemies : MonoBehaviour
 {
     public List<GameObject> Rogues, Warriors, Mages;
+    public Object endGame;
 
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")){
@@ -16,6 +18,14 @@ public class AgroEnemies : MonoBehaviour
             foreach(GameObject mage in Mages){
                 mage.GetComponent<Mage_Attacks>().begin_spell = true;
             }
+        }
+    }
+
+    private void Update() {
+        if(Rogues.Count == 0 && Warriors.Count == 0 && Mages.Count == 0){ 
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene(endGame.name);
         }
     }
 }

@@ -86,7 +86,18 @@ public class States : MonoBehaviour
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, timeElapsed / duration);
                 timeElapsed += Time.deltaTime;
             }
-            else Destroy(gameObject);
+            else{
+                if(gameObject.name.Contains("Mage")){
+                    GameObject.Find("Plane (1)").GetComponent<AgroEnemies>().Mages.Remove(gameObject);
+                }
+                else if(gameObject.name.Contains("Rogue")){
+                    GameObject.Find("Plane (1)").GetComponent<AgroEnemies>().Rogues.Remove(gameObject);
+                }
+                else{
+                    GameObject.Find("Plane (1)").GetComponent<AgroEnemies>().Warriors.Remove(gameObject);
+                }
+                Destroy(gameObject);
+            }
             counter = Application.targetFrameRate * 3;
         }
         counter++;

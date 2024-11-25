@@ -2726,6 +2726,7 @@ MonoBehaviour:
   - {fileID: 1494217610}
   Mages:
   - {fileID: 1799935278}
+  endGame: {fileID: 102900000, guid: 6961ec3f2e49ebd4990c8783c3a7d758, type: 3}
 --- !u!1001 &318560900
 PrefabInstance:
   m_ObjectHideFlags: 0

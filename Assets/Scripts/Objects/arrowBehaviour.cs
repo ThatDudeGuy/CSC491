@@ -9,7 +9,7 @@ public class arrowBehaviour : MonoBehaviour
             other.GetComponent<Health_Tracking>().damagePlayer(10);
             Destroy(gameObject);
         }
-        else if(other.CompareTag("Floor") || other.CompareTag("Ground") || other.CompareTag("Bricks")){
+        else if(other.CompareTag("Floor") || other.CompareTag("Ground") || other.CompareTag("Bricks") || other.CompareTag("Wall")){
             print(other.gameObject.name);
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             beginTimer = true;
